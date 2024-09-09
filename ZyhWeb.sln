@@ -30,6 +30,12 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ZyhWebUI", "ZyhWebUI\", "{1
 		SlnRelativePath = "ZyhWebUI\"
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{499609A6-09D8-49D5-9ECC-71A0F75BA779}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
