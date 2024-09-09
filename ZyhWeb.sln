@@ -9,6 +9,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "后端API", "后端API", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "前端UI", "前端UI", "{FC25F73D-7211-4715-A54F-3FF639128F92}"
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ZyhWebUI", "ZyhWebUI\", "{15830223-642C-47EE-9E62-1525955F0353}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_52640"
+		Debug.AspNetCompiler.PhysicalPath = "ZyhWebUI\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52640\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_52640"
+		Release.AspNetCompiler.PhysicalPath = "ZyhWebUI\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52640\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "52640"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,12 +39,17 @@ Global
 		{20FFF400-A37A-47A3-9846-F604CFE9C193}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20FFF400-A37A-47A3-9846-F604CFE9C193}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20FFF400-A37A-47A3-9846-F604CFE9C193}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15830223-642C-47EE-9E62-1525955F0353}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15830223-642C-47EE-9E62-1525955F0353}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15830223-642C-47EE-9E62-1525955F0353}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{15830223-642C-47EE-9E62-1525955F0353}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{20FFF400-A37A-47A3-9846-F604CFE9C193} = {57FE953D-0B8D-4E32-8241-915C191CB984}
+		{15830223-642C-47EE-9E62-1525955F0353} = {FC25F73D-7211-4715-A54F-3FF639128F92}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3F7DA44-C675-4E26-9006-02A2D2E82B80}
