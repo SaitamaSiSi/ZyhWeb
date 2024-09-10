@@ -3,6 +3,10 @@
     "demos": {
       "title": "演示",
       "element-plus": "Element Plus"
+    },
+    "home": {
+      "title": "首页",
+      "index": "首页页面"
     }
   }
 }

@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
+using ZyhWebApi.Models;
 
 namespace ULIT.ICAPI.Controllers
 {
@@ -20,9 +22,18 @@ namespace ULIT.ICAPI.Controllers
         }
 
         [HttpPost, Route("post")]
-        public string Post()
+        public string Post([FromBody] AuthCondition condition)
         {
-            return "post";
+            return @"{{""code"": 124, ""msg"": ""OkO""}}";
+            //            return @$"{{
+            //  ""code"": 0,
+            //  ""data"": {{
+            //    ""code"": 124,
+            //    ""msg"": ""OK"",
+            //  }},
+            //  ""error"": null,
+            //  ""message"": ""ok""
+            //}}";
         }
     }
 }

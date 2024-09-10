@@ -3,6 +3,10 @@
     "demos": {
       "title": "Demos",
       "element-plus": "Element Plus"
+    },
+    "home": {
+      "title": "Home",
+      "index": "Home Page"
     }
   }
 }
