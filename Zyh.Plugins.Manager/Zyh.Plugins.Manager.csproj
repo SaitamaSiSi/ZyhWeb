@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Zyh.Common\Zyh.Common.csproj" />
+		<ProjectReference Include="..\Zyh.Plugins\Zyh.Plugins.csproj" />
+	</ItemGroup>
+
+</Project>

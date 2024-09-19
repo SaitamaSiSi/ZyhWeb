@@ -286,18 +286,8 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
-/01通信网关/Ebos.Led.Shenzhen.RHAdapter/.config/*
-/02LedWebSite.rar
-/02LedWebSite.zip
-/02LED平台.rar
-/02LED平台.zip
-/LedManageUI/*
 
-/02LedWebSite/Ebos.Led.WebApiHost/plugins/Ebos.Led.Plugin.PublishInfo
-/02LedWebSite/Ebos.Led.WebApiHost/plugins/Ebos.Led.Plugin.RoadState
-/02LedWebSite/Ebos.Led.WebApiHost/plugins/Ebos.Led.Plugin.ViolationInfo
-/02LedWebSite/Ebos.Led.WebApiHost/plugins
-/02LedWebSite/Ebos.Led.WebUI/.VSCodeCounter/
-/02LedWebSite/Ebos.Led.WebApiHost/_data/fonts/
-/02LedWebSite/Ebos.Led.WebApiHost/wwwroot/
-/02LedWebSite/Ebos.Led.WebApiHost/wwwroot/*
+/Zyh.Web.Api/plugins/Zyh.Plugin.Template
+/Zyh.Web.Api/_data/fonts/
+/Zyh.Web.Api/wwwroot/
+/Zyh.Web.Api/wwwroot/*

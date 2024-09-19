@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.OpenApi.Models;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
+using Zyh.Common.Filter.Web;
 
-namespace ULIT.ICAPI
+namespace Zyh.Web.Api
 {
     public class Startup
     {
@@ -48,6 +49,16 @@ namespace ULIT.ICAPI
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
                 options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
             });
+            services.AddMvc(options =>
+            {
+                options.EnableEndpointRouting = false;
+                options.Filters.Add(typeof(AuthFilter));
+                options.Filters.Add(typeof(ApiActionFilter));
+            }).AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            });
             services.AddHttpContextAccessor();
 
             services.AddSwaggerGen(c =>
@@ -57,12 +68,12 @@ namespace ULIT.ICAPI
                     Version = "v1.0",
                     Title = "WebApi",
                     Description = @"测试",
-                    TermsOfService = new Uri("https://cqulit.com"),
+                    TermsOfService = new Uri("https://zyh.com"),
                     Contact = new OpenApiContact
                     {
-                        Name = "ulit",
-                        Email = "ulit@live.cn",
-                        Url = new Uri("https://github.com/ulit"),
+                        Name = "zyh",
+                        Email = "zyh@live.cn",
+                        Url = new Uri("https://github.com/SaitamaSiSi"),
                     }
                 });
             });
@@ -77,7 +88,7 @@ namespace ULIT.ICAPI
             }).AddCookie(options =>
             {
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
-                options.Cookie.Name = "tips-auth";
+                options.Cookie.Name = "zyh-auth";
                 options.SlidingExpiration = true;
             });
         }

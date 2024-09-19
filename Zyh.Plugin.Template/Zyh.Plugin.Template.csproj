@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<Configurations>Debug;Release</Configurations>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Zyh.Common\Zyh.Common.csproj" />
+		<ProjectReference Include="..\Zyh.Plugins\Zyh.Plugins.csproj" />
+	</ItemGroup>
+
+	<!--启用后会将debug输出目录中文件移动到网站后台的plugins文件夹中-->
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="If $(ConfigurationName) == Release (&#xD;&#xA;if exist &quot;../ZyhWebApi/plugins/Zyh.Plugin.Template&quot; (&#xD;&#xA;rmdir /q /s &quot;../ZyhWebApi/plugins/Zyh.Plugin.Template&quot;) &#xD;&#xA;md &quot;../ZyhWebApi/plugins/Zyh.Plugin.Template&quot; &amp;&amp; xcopy &quot;./bin/Release/netstandard2.1&quot; &quot;../ZyhWebApi/plugins/Zyh.Plugin.Template&quot; /y&#xD;&#xA;) else (&#xD;&#xA;if exist &quot;../ZyhWebApi/plugins/Zyh.Plugin.Template&quot; (&#xD;&#xA;rmdir /q /s &quot;../ZyhWebApi/plugins/Zyh.Plugin.Template&quot;) &#xD;&#xA;md &quot;../ZyhWebApi/plugins/Zyh.Plugin.Template&quot; &amp;&amp; xcopy &quot;./bin/Debug/netstandard2.1&quot; &quot;../ZyhWebApi/plugins/Zyh.Plugin.Template&quot; /y&#xD;&#xA;)" />
+	</Target>
+
+</Project>

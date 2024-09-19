@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Zyh.Common\Zyh.Common.csproj" />
+		<ProjectReference Include="..\Zyh.Plugins.Manager\Zyh.Plugins.Manager.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="plugins\**">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="plugins\" />
+	</ItemGroup>
+
+</Project>
