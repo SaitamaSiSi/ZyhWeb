@@ -11,6 +11,10 @@
     "gantt": {
       "title": "Gantt",
       "index": "Gantt Page"
+    },
+    "three": {
+      "title": "Three",
+      "index": "Three Page"
     }
   }
 }

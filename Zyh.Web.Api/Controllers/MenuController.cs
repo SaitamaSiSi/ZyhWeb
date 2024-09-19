@@ -58,7 +58,6 @@ namespace ZyhWebApi.Controllers
           ""path"": ""/homePage"",
           ""component"": ""/home/homePage/index"",
           ""meta"": {{
-            ""affixTab"": true,
             ""title"": ""page.home.index""
           }}
         }},
@@ -76,6 +75,14 @@ namespace ZyhWebApi.Controllers
           ""component"": ""/home/gantt2/index"",
           ""meta"": {{
             ""title"": ""page.gantt.index""
+          }}
+        }},
+{{
+          ""name"": ""Three"",
+          ""path"": ""/three"",
+          ""component"": ""/home/three/index"",
+          ""meta"": {{
+            ""title"": ""page.three.index""
           }}
         }}
       ]
