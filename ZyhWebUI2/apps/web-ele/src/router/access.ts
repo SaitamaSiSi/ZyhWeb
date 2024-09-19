@@ -4,7 +4,6 @@ import type {
 } from '@vben/types';
 
 import { generateAccessible } from '@vben/access';
-import { preferences } from '@vben/preferences';
 
 import { ElMessage } from 'element-plus';
 
@@ -22,7 +21,8 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
     IFrameView,
   };
 
-  return await generateAccessible(preferences.app.accessMode, {
+  // preferences.app.accessMode => 'backend' / 'frontend';
+  return await generateAccessible('backend', {
     ...options,
     fetchMenuListAsync: async () => {
       ElMessage({

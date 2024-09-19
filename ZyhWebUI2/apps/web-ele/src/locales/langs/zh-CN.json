@@ -7,6 +7,10 @@
     "home": {
       "title": "首页",
       "index": "首页页面"
+    },
+    "gantt": {
+      "title": "甘特图",
+      "index": "甘特图页面"
     }
   }
 }

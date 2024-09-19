@@ -18,15 +18,12 @@ function refreshBtn(type: NotificationType) {
   refresh();
 }
 async function sendReqBtn(type: NotificationType) {
-  const apiResponse = await corePostApi({
+  const { data } = await corePostApi({
     password: '123456',
     username: 'admin',
     withCredentials: true,
   });
-  console.log(apiResponse);
-  const response = JSON.parse(apiResponse.data);
-  console.log(response);
-  const { code, msg } = response;
+  const { code, msg } = data;
   ElNotification({
     duration: 2500,
     message: `请求测试:${code},${msg}`,

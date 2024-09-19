@@ -1,12 +1,14 @@
 import { defineConfig } from '@vben/vite-config';
 
 import ElementPlus from 'unplugin-element-plus/vite';
+import eslint from 'vite-plugin-eslint';
 
 export default defineConfig(async () => {
   return {
     application: {},
     vite: {
       plugins: [
+        eslint(),
         ElementPlus({
           format: 'esm',
         }),

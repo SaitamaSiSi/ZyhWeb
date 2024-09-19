@@ -4,7 +4,7 @@ using ULIT.ICAPI.Controllers;
 
 namespace ZyhWebApi.Controllers
 {
-    [Route("api/user")]
+    [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {

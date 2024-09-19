@@ -24,7 +24,7 @@ namespace ULIT.ICAPI.Controllers
         [HttpPost, Route("post")]
         public string Post([FromBody] AuthCondition condition)
         {
-            return @"{{""code"": 124, ""msg"": ""OkO""}}";
+            return @"{""code"": 124, ""msg"": ""OkO""}";
             //            return @$"{{
             //  ""code"": 0,
             //  ""data"": {{

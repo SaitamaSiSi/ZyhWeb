@@ -4,7 +4,7 @@ using ZyhWebApi.Models;
 
 namespace ZyhWebApi.Controllers
 {
-    [Route("api/auth")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
