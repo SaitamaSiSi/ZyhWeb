@@ -7,6 +7,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04后端API", "04后端API"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05前端UI", "05前端UI", "{FC25F73D-7211-4715-A54F-3FF639128F92}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01文档", "01文档", "{499609A6-09D8-49D5-9ECC-71A0F75BA779}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Common", "Zyh.Common\Zyh.Common.csproj", "{7836FC18-C105-46D2-95A8-F8AC763CFB7D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Plugins.Manager", "Zyh.Plugins.Manager\Zyh.Plugins.Manager.csproj", "{719FF521-323C-4F31-BCF4-4AF0CF1D84DA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Plugins", "Zyh.Plugins\Zyh.Plugins.csproj", "{46F3C307-04FA-4A0A-B734-946BE32E8154}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02类库", "02类库", "{B2A182C3-1F9D-4071-BD14-CC21F6C0F642}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03业务", "03业务", "{806E99A6-8547-4D94-B056-BC274BF658E5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Plugin.Template", "Zyh.Plugin.Template\Zyh.Plugin.Template.csproj", "{E1AFCE3B-0A9C-4B1B-B71B-CA2EB3471587}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Web.Api", "Zyh.Web.Api\Zyh.Web.Api.csproj", "{16630992-C724-4674-9BA3-761C406012A1}"
+EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ZyhWebUI", "ZyhWebUI\", "{15830223-642C-47EE-9E62-1525955F0353}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
@@ -26,12 +42,6 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ZyhWebUI", "ZyhWebUI\", "{1
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "52640"
 		SlnRelativePath = "ZyhWebUI\"
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01文档", "01文档", "{499609A6-09D8-49D5-9ECC-71A0F75BA779}"
-	ProjectSection(SolutionItems) = preProject
-		LICENSE.txt = LICENSE.txt
-		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ZyhWebUI2", "ZyhWebUI2\", "{25453AF7-1EB7-4D9C-833F-F3A0E7B2A579}"
@@ -55,30 +65,12 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ZyhWebUI2", "ZyhWebUI2\", "
 		SlnRelativePath = "ZyhWebUI2\"
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Common", "Zyh.Common\Zyh.Common.csproj", "{7836FC18-C105-46D2-95A8-F8AC763CFB7D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Plugins.Manager", "Zyh.Plugins.Manager\Zyh.Plugins.Manager.csproj", "{719FF521-323C-4F31-BCF4-4AF0CF1D84DA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Plugins", "Zyh.Plugins\Zyh.Plugins.csproj", "{46F3C307-04FA-4A0A-B734-946BE32E8154}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02类库", "02类库", "{B2A182C3-1F9D-4071-BD14-CC21F6C0F642}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03业务", "03业务", "{806E99A6-8547-4D94-B056-BC274BF658E5}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Plugin.Template", "Zyh.Plugin.Template\Zyh.Plugin.Template.csproj", "{E1AFCE3B-0A9C-4B1B-B71B-CA2EB3471587}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Web.Api", "Zyh.Web.Api\Zyh.Web.Api.csproj", "{16630992-C724-4674-9BA3-761C406012A1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{15830223-642C-47EE-9E62-1525955F0353}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15830223-642C-47EE-9E62-1525955F0353}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{25453AF7-1EB7-4D9C-833F-F3A0E7B2A579}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{25453AF7-1EB7-4D9C-833F-F3A0E7B2A579}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{7836FC18-C105-46D2-95A8-F8AC763CFB7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7836FC18-C105-46D2-95A8-F8AC763CFB7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7836FC18-C105-46D2-95A8-F8AC763CFB7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -99,18 +91,26 @@ Global
 		{16630992-C724-4674-9BA3-761C406012A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16630992-C724-4674-9BA3-761C406012A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16630992-C724-4674-9BA3-761C406012A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15830223-642C-47EE-9E62-1525955F0353}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15830223-642C-47EE-9E62-1525955F0353}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15830223-642C-47EE-9E62-1525955F0353}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{15830223-642C-47EE-9E62-1525955F0353}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{25453AF7-1EB7-4D9C-833F-F3A0E7B2A579}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25453AF7-1EB7-4D9C-833F-F3A0E7B2A579}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25453AF7-1EB7-4D9C-833F-F3A0E7B2A579}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{25453AF7-1EB7-4D9C-833F-F3A0E7B2A579}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{15830223-642C-47EE-9E62-1525955F0353} = {FC25F73D-7211-4715-A54F-3FF639128F92}
-		{25453AF7-1EB7-4D9C-833F-F3A0E7B2A579} = {FC25F73D-7211-4715-A54F-3FF639128F92}
 		{7836FC18-C105-46D2-95A8-F8AC763CFB7D} = {B2A182C3-1F9D-4071-BD14-CC21F6C0F642}
 		{719FF521-323C-4F31-BCF4-4AF0CF1D84DA} = {B2A182C3-1F9D-4071-BD14-CC21F6C0F642}
 		{46F3C307-04FA-4A0A-B734-946BE32E8154} = {B2A182C3-1F9D-4071-BD14-CC21F6C0F642}
 		{E1AFCE3B-0A9C-4B1B-B71B-CA2EB3471587} = {806E99A6-8547-4D94-B056-BC274BF658E5}
 		{16630992-C724-4674-9BA3-761C406012A1} = {57FE953D-0B8D-4E32-8241-915C191CB984}
+		{15830223-642C-47EE-9E62-1525955F0353} = {FC25F73D-7211-4715-A54F-3FF639128F92}
+		{25453AF7-1EB7-4D9C-833F-F3A0E7B2A579} = {FC25F73D-7211-4715-A54F-3FF639128F92}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3F7DA44-C675-4E26-9006-02A2D2E82B80}
