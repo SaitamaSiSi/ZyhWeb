@@ -1,13 +1,14 @@
 <script>
-import { ref, watch } from 'vue';
 import ThreeSample from '#/views/components/three/threeSample.vue'
 import ThreeRayCasterSample from '#/views/components/three/threeRayCasterSample.vue'
+import MyCarSample from '#/views/components/three/threeMyCarSample.vue'
 
 export default {
   name: 'Three',
   components: {
     ThreeSample,
-    ThreeRayCasterSample
+    ThreeRayCasterSample,
+    MyCarSample
   },
   props: {
   },
@@ -29,7 +30,8 @@ export default {
     </div>
     <div class="left-container">
       <!-- <ThreeSample /> -->
-      <ThreeRayCasterSample />
+      <!-- <ThreeRayCasterSample /> -->
+       <MyCarSample />
     </div>
   </div>
 </template>

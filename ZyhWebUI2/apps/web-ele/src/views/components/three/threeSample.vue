@@ -944,7 +944,7 @@ export default {
         this.canvas.removeEventListener('mousedown', this.onMouseDown, false)
         this.canvas.removeEventListener('mouseup', this.onMouseUp, false)
         this.canvas.removeEventListener('mouseleave', this.onMouseUp, false)
-        window.removeEventListener('mouseleave', this.onMouseUp, false)
+        window.removeEventListener('keypress', this.onKeyPress, false)
         window.removeEventListener('keydown', this.onKeyDown, false)
       }
       this.clearScene()
@@ -971,7 +971,6 @@ export default {
       this.camera = null
       // this.controls = null
       this.renderer = null
-      this.sceneDomElement = null
     }
   }
 };

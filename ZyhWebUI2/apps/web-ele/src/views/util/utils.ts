@@ -5,3 +5,6 @@ export const getAssetsImgFile = (url: string) => {
 export const getAssetsVideoFile = (url: string) => {
   return new URL(`/src/assets/videos/${url}`, import.meta.url).href;
 };
+export const getAssetsModelFile = (url: string) => {
+  return new URL(`/src/assets/models/${url}`, import.meta.url).href;
+};
