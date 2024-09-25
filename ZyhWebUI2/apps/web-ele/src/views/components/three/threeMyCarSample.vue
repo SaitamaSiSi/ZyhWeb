@@ -27,7 +27,7 @@ export default {
     const isMoveabled = ref(false);
     const isAnimationPaused = ref(false);
     var doDecompose = false;
-    var deComposeDone = false;
+    var meshNameList = [];
     var tweenDecomposeList = [];
     var tweenComposeList = [];
     var mouseObj = {
@@ -85,7 +85,15 @@ export default {
           case 'V': {
             {
               doDecompose = !doDecompose;
-              deComposeDone = false;
+              if (doDecompose) {
+                tweenDecomposeList.forEach((tween) => {
+                  tween.start();
+                });
+              } else {
+                tweenComposeList.forEach((tween) => {
+                  tween.start();
+                });
+              }
               break;
             }
           }
@@ -162,8 +170,7 @@ export default {
             .to(position, 500)
             .onUpdate(function (val) {
               obj.position.set(val.x || 0, val.y || 0, val.z || 0);
-            })
-            .start();
+            });
           return tween;
         }
         const length = glowMaterialList.length
@@ -194,7 +201,7 @@ export default {
           g_scene.add(gltf.scene);
           //相机观察目标指向Threejs 3D空间中某个位置
           camera.value.lookAt(gltf.scene.position);
-          var meshNameList = [];
+          meshNameList = [];
           gltf.scene.children[0].children[0].children.forEach(object => {
             if (object.type === 'Mesh') {
               meshNameList.push(object.name);
@@ -229,6 +236,7 @@ export default {
         // 旋转摄像机端点
         if (renderer.value != null) {
           if (!isAnimationPaused.value) {
+            requestAnimationFrame(render);
             const t = clock.getDelta();
             group.children.forEach(sprite => {
               // 雨滴的y坐标每次减t*60
@@ -238,7 +246,7 @@ export default {
               }
             });
             renderer.value.render(g_scene, camera.value);
-            if (!deComposeDone) {
+            if (tweenDecomposeList.length > 0 || tweenComposeList.length > 0) {
               if (doDecompose) {
                 tweenDecomposeList.forEach((tween) => {
                   tween.update(time);
@@ -248,9 +256,7 @@ export default {
                   tween.update(time);
                 });
               }
-              deComposeDone = true;
             }
-            requestAnimationFrame(render);
           }
         }
       }
