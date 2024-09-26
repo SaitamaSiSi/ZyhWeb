@@ -15,6 +15,10 @@
     "three": {
       "title": "Three",
       "index": "Three Page"
+    },
+    "video": {
+      "title": "Video",
+      "index": "Video Page"
     }
   }
 }

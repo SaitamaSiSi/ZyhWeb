@@ -86,6 +86,26 @@ namespace ZyhWebApi.Controllers
           }}
         }}
       ]
+    }},
+    {{
+      ""component"": ""BasicLayout"",
+      ""meta"": {{
+        ""icon"": ""mdi:video"",
+        ""title"": ""page.video.title""
+      }},
+      ""name"": ""Video"",
+      ""path"": ""/video"",
+      ""redirect"": ""/zlmediakitPage"",
+      ""children"": [
+        {{
+          ""name"": ""Zlmediakit"",
+          ""path"": ""/zlmediakitPage"",
+          ""component"": ""/video/zlmediakit/index"",
+          ""meta"": {{
+            ""title"": ""page.video.index""
+          }}
+        }}
+      ]
     }}
   ],
   ""error"": null,
