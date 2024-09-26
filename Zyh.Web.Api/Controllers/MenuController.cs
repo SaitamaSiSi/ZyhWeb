@@ -104,6 +104,14 @@ namespace ZyhWebApi.Controllers
           ""meta"": {{
             ""title"": ""page.video.index""
           }}
+        }},
+        {{
+          ""name"": ""Zlmediakit2"",
+          ""path"": ""/zlmediakit2Page"",
+          ""component"": ""/video/zlmediakit2/index"",
+          ""meta"": {{
+            ""title"": ""page.video.index""
+          }}
         }}
       ]
     }}

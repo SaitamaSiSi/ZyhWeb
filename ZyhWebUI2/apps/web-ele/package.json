@@ -45,6 +45,7 @@
     "dayjs": "^1.11.13",
     "dhtmlx-gantt": "^8.0.10",
     "element-plus": "^2.8.1",
+    "hls.js": "^1.5.15",
     "pinia": "2.2.2",
     "three": "^0.168.0",
     "videojs-contrib-hls": "^5.15.0",

@@ -249,6 +249,9 @@ importers:
       element-plus:
         specifier: ^2.8.1
         version: 2.8.1(vue@3.5.0(typescript@5.5.4))
+      hls.js:
+        specifier: ^1.5.15
+        version: 1.5.15
       pinia:
         specifier: 2.2.2
         version: 2.2.2(typescript@5.5.4)(vue@3.5.0(typescript@5.5.4))
@@ -6254,6 +6257,9 @@ packages:
   he@1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
+
+  hls.js@1.5.15:
+    resolution: {integrity: sha512-6cD7xN6bycBHaXz2WyPIaHn/iXFizE5au2yvY5q9aC4wfihxAr16C9fUy4nxh2a3wOw0fEgLRa9dN6wsYjlpNg==}
 
   homedir-polyfill@1.0.3:
     resolution: {integrity: sha512-eSmmWE5bZTK2Nou4g0AI3zZ9rswp7GRKoKXS1BLUkvPviOqs4YTN1djQIqrXy9k5gEtdLPy86JjRwsNM9tnDcA==}
@@ -15643,6 +15649,8 @@ snapshots:
       function-bind: 1.1.2
 
   he@1.2.0: {}
+
+  hls.js@1.5.15: {}
 
   homedir-polyfill@1.0.3:
     dependencies:

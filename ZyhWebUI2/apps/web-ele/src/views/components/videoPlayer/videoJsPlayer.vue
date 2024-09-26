@@ -13,8 +13,8 @@ export default {
   },
   props: {
     videoId: {
-      type: String,
-      default:'',
+      type: Number,
+      default: 0,
     },
     videoUrl: {
       type: String,
@@ -37,7 +37,9 @@ export default {
           src: props.videoUrl,
           type: 'application/x-mpegURL'
         }],
-      }, () => { player.log('onPlayerReady'); });
+      }, () => {
+        // player.log('onPlayerReady'); 
+      });
     });
     onBeforeUnmount(() => {
       if (player) {
