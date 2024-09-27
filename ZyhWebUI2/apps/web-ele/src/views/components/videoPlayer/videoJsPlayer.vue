@@ -1,11 +1,13 @@
 <script>
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
+import "videojs-flvjs-es6";
 import {
   onBeforeMount,
   onMounted,
   onBeforeUnmount,
 } from "vue";
+import { getVideoStreamType } from "#/views/util/utils";
 
 export default {
   name: 'VideoJsPlayer',
@@ -20,6 +22,10 @@ export default {
       type: String,
       default: '',
     },
+    videoType: {
+      type: String,
+      default: 'mp4',
+    }
   },
   setup(props, context) {
     var player = null;
@@ -27,7 +33,7 @@ export default {
     });
     onMounted(() => {
       var videoPlayerBox = document.getElementById("videoJsPlayerBox" + props.videoId);
-      player = videojs(videoPlayerBox, {
+      var videoJsSetting = {
         autoplay: true,
         muted: true,
         preload: 'auto',
@@ -35,9 +41,28 @@ export default {
         responsive: true,
         sources: [{
           src: props.videoUrl,
-          type: 'application/x-mpegURL'
+          type: getVideoStreamType(props.videoType)
         }],
-      }, () => {
+      };
+      switch (props.videoType) {
+        case 'hls':
+          {
+            break;
+          }
+        case 'flv':
+          {
+            videoJsSetting['techOrder'] = ["html5", "flvjs"]; // 兼容顺序
+            videoJsSetting['flvjs'] = {
+              mediaDataSource: {
+                isLive: false,
+                cors: true,
+                withCredentials: false
+              }
+            }
+            break;
+          }
+      }
+      player = videojs(videoPlayerBox, videoJsSetting, () => {
         // player.log('onPlayerReady'); 
       });
     });
@@ -53,7 +78,7 @@ export default {
 </script>
 
 <template>
-  <video :id="'videoJsPlayerBox' + videoId" class="video-js vjs-default-skin" controls preload="auto" data-setup="{}">
+  <video :id="'videoJsPlayerBox' + videoId" class="video-js vjs-default-skin" data-setup="{}">
     <!-- 可以在这里插入source标签以指定你的视频源 -->
     <!-- <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4"> -->
   </video>

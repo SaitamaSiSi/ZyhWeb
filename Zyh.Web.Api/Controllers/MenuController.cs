@@ -112,6 +112,22 @@ namespace ZyhWebApi.Controllers
           ""meta"": {{
             ""title"": ""page.video.index""
           }}
+        }},
+        {{
+          ""name"": ""Zlmediakit3"",
+          ""path"": ""/zlmediakit3Page"",
+          ""component"": ""/video/zlmediakit3/index"",
+          ""meta"": {{
+            ""title"": ""page.video.index""
+          }}
+        }},
+        {{
+          ""name"": ""Zlmediakit4"",
+          ""path"": ""/zlmediakit4Page"",
+          ""component"": ""/video/zlmediakit4/index"",
+          ""meta"": {{
+            ""title"": ""page.video.index""
+          }}
         }}
       ]
     }}

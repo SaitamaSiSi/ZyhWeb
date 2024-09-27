@@ -19,7 +19,7 @@ export default {
 
 <template>
   <div id="container">
-    <h1>Vue3 与 hls.js 视频播放器示例</h1>
+    <h1>Vue3 与 hls.js hls视频播放器示例</h1>
     <CardContent class="flex flex-wrap p-0">
       <template v-for="(item, index) in items" :key="index">
         <div :class="{
