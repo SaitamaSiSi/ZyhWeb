@@ -54,7 +54,7 @@ export default {
             videoJsSetting['techOrder'] = ["html5", "flvjs"]; // 兼容顺序
             videoJsSetting['flvjs'] = {
               mediaDataSource: {
-                isLive: false,
+                isLive: true,
                 cors: true,
                 withCredentials: false
               }

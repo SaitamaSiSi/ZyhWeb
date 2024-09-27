@@ -28,6 +28,11 @@ export default {
       var videoPlayerBox = document.getElementById("flvJsPlayerBox" + props.videoId);
       if (flvjs.isSupported()) {
         var flvPlayer = flvjs.createPlayer({
+          isLive: true,
+          lazyLoadMaxDuration: 15,
+          lazyLoadRecoverDuration: 5,
+          autoCleanupSourceBuffer: true,
+          autoCleanupMaxBackwardDuration: 30,
           type: 'flv',
           url: props.videoUrl
         });
