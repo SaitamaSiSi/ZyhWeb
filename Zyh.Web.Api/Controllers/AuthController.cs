@@ -15,7 +15,6 @@ namespace ZyhWebApi.Controllers
             _logger = logger;
         }
 
-
         [HttpPost, Route("logout")]
         public string Logout([FromBody] AuthCondition condition)
         {
