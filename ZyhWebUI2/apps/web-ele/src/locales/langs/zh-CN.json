@@ -12,13 +12,13 @@
       "title": "甘特图",
       "index": "甘特图页面"
     },
-    "three": {
-      "title": "Three",
-      "index": "Three页面"
-    },
     "video": {
       "title": "Video",
       "index": "Video页面"
+    },
+    "anamation": {
+      "title": "Anamation",
+      "index": "Anamation页面"
     }
   }
 }

@@ -19,6 +19,10 @@
     "video": {
       "title": "Video",
       "index": "Video Page"
+    },
+    "anamation": {
+      "title": "Anamation",
+      "index": "Anamation Page"
     }
   }
 }

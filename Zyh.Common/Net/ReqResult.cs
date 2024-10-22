@@ -7,6 +7,9 @@
 // <date>2024/10/18 17:02:00</date>
 //------------------------------------------------------------------------------
 
+using Newtonsoft.Json;
+using System.Xml;
+
 namespace Zyh.Common.Net
 {
     public class ReqResult<T> : BaseResult
@@ -25,6 +28,14 @@ namespace Zyh.Common.Net
         public static ReqResult<T> Failed(T data)
         {
             return new ReqResult<T>(data, ResultStatus.Failed);
+        }
+
+        public string ToJsonString()
+        {
+            return JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
         }
     }
 }

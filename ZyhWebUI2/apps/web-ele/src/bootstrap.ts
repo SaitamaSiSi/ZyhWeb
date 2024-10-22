@@ -5,6 +5,10 @@ import { initStores } from '@vben/stores';
 import '@vben/styles';
 import '@vben/styles/ele';
 
+// 全局引入 element-plus
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+
 import { setupI18n } from '#/locales';
 
 import App from './app.vue';
@@ -24,6 +28,8 @@ async function bootstrap(namespace: string) {
 
   // 配置路由及路由守卫
   app.use(router);
+
+  app.use(ElementPlus)
 
   app.mount('#app');
 }

@@ -4,7 +4,7 @@ import ThreeRayCasterSample from '#/views/components/three/threeRayCasterSample.
 import MyCarSample from '#/views/components/three/threeMyCarSample.vue'
 
 export default {
-  name: 'Three',
+  name: 'ThreePage',
   components: {
     ThreeSample,
     ThreeRayCasterSample,
