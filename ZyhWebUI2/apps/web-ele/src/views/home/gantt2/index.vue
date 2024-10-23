@@ -105,7 +105,6 @@ body {
   padding: 0;
 }
 .container {
-  height: 100vh;
   width: 100%;
 }
 .left-container {

@@ -30,3 +30,7 @@ export const getVideoStreamType = (type: string) => {
       return 'video/mp4';
   }
 };
+
+export function getRandomInt(min: number, max: number): number {
+  return Math.random() * (max - min + 1) + min;
+}

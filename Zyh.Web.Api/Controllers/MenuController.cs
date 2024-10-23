@@ -83,22 +83,22 @@ namespace ZyhWebApi.Controllers
             MenuRouter zlmediakitPage = new MenuRouter();
             zlmediakitPage.name = "Zlmediakit";
             zlmediakitPage.path = "/zlmediakitPage";
-            zlmediakitPage.component = "/home/zlmediakit/index";
+            zlmediakitPage.component = "/video/zlmediakit/index";
             zlmediakitPage.meta.title = "page.video.index";
             MenuRouter zlmediakit2Page = new MenuRouter();
             zlmediakit2Page.name = "Zlmediakit2";
             zlmediakit2Page.path = "/zlmediakit2Page";
-            zlmediakit2Page.component = "/home/zlmediakit2/index";
+            zlmediakit2Page.component = "/video/zlmediakit2/index";
             zlmediakit2Page.meta.title = "page.video.index";
             MenuRouter zlmediakit3Page = new MenuRouter();
             zlmediakit3Page.name = "Zlmediakit3";
             zlmediakit3Page.path = "/zlmediakit3Page";
-            zlmediakit3Page.component = "/home/zlmediakit3/index";
+            zlmediakit3Page.component = "/video/zlmediakit3/index";
             zlmediakit3Page.meta.title = "page.video.index";
             MenuRouter zlmediakit4Page = new MenuRouter();
             zlmediakit4Page.name = "Zlmediakit4";
             zlmediakit4Page.path = "/zlmediakit4Page";
-            zlmediakit4Page.component = "/home/zlmediakit4/index";
+            zlmediakit4Page.component = "/video/zlmediakit4/index";
             zlmediakit4Page.meta.title = "page.video.index";
             video.children = new List<MenuRouter>() { zlmediakitPage, zlmediakit2Page, zlmediakit3Page, zlmediakit4Page };
 
