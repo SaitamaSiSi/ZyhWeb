@@ -1,7 +1,4 @@
 ﻿//------------------------------------------------------------------------------
-// <copyright file="HttpResult.cs" company="CQ ULIT Co., Ltd.">
-//    Copyright (c) 2024, Chongqing Youliang Science & Technology Co., Ltd. All rights reserved.
-// </copyright>
 // <author>Zhuo YuHan</author>
 // <email>1719700768@qq.com</email>
 // <date>2024/10/18 17:02:00</date>
@@ -23,11 +20,11 @@ namespace Zyh.Common.Net
 
         public static ReqResult<T> Success(T data)
         {
-            return new ReqResult<T>(data, ResultStatus.Success);
+            return new ReqResult<T>(data, ResultStatus.Success, 0, "ok");
         }
         public static ReqResult<T> Failed(T data)
         {
-            return new ReqResult<T>(data, ResultStatus.Failed);
+            return new ReqResult<T>(data, ResultStatus.Failed, 0, "error");
         }
 
         public string ToJsonString()

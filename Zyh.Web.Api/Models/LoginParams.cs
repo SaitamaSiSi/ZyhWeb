@@ -1,6 +1,6 @@
-﻿namespace ZyhWebApi.Models
+﻿namespace Zyh.Web.Api.Models
 {
-    public class AuthCondition
+    public class LoginParams
     {
         public bool withCredentials { get; set; }
         public string username { get; set; } = string.Empty;

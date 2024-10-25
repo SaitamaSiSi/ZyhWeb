@@ -1,14 +1,12 @@
 ﻿//------------------------------------------------------------------------------
 // <author>Zhuo YuHan</author>
 // <email>1719700768@qq.com</email>
-// <date>2024/10/18 17:06:09</date>
+// <date>2024/10/24 14:52:02</date>
 //------------------------------------------------------------------------------
 
-namespace Zyh.Common.Net
+namespace Zyh.Data.Entity.Core
 {
-    public enum ResultStatus
+    public interface IEntity
     {
-        Success = 1,
-        Failed = 2
     }
 }

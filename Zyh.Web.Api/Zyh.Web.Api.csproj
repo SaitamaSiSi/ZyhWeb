@@ -12,6 +12,9 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Zyh.Common\Zyh.Common.csproj" />
+		<ProjectReference Include="..\Zyh.Data.Entity\Zyh.Data.Entity.csproj" />
+		<ProjectReference Include="..\Zyh.Data.Provider\Zyh.Data.Provider.csproj" />
+		<ProjectReference Include="..\Zyh.Data.Service\Zyh.Data.Service.csproj" />
 		<ProjectReference Include="..\Zyh.Plugins.Manager\Zyh.Plugins.Manager.csproj" />
 	</ItemGroup>
 

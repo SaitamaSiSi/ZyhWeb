@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.IO.Pipelines;
 using Zyh.Common.Net;
 using Zyh.Common.Security;
 using Zyh.Web.Api.Models;

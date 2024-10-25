@@ -33,7 +33,7 @@ export const useAuthStore = defineStore('auth', () => {
     let userInfo: null | UserInfo = null;
     try {
       loginLoading.value = true;
-      const { accessToken } = await loginApi(params);
+      const { accessToken, username, desc } = await loginApi(params);
 
       // 如果成功获取到 accessToken
       if (accessToken) {
@@ -42,8 +42,8 @@ export const useAuthStore = defineStore('auth', () => {
 
         // 获取用户信息并存储到 accessStore 中
         const [fetchUserInfoResult, accessCodes] = await Promise.all([
-          fetchUserInfo(),
-          getAccessCodesApi(),
+          fetchUserInfo(username),
+          getAccessCodesApi(username),
         ]);
 
         userInfo = fetchUserInfoResult;
@@ -66,6 +66,12 @@ export const useAuthStore = defineStore('auth', () => {
             type: 'success',
           });
         }
+      } else {
+        ElNotification({
+          message: `${username}:${desc}`,
+          title: $t('authentication.loginFailed'),
+          type: 'error',
+        });
       }
     } finally {
       loginLoading.value = false;
@@ -92,9 +98,9 @@ export const useAuthStore = defineStore('auth', () => {
     });
   }
 
-  async function fetchUserInfo() {
+  async function fetchUserInfo(username: string) {
     let userInfo: null | UserInfo = null;
-    userInfo = await getUserInfoApi();
+    userInfo = await getUserInfoApi(username);
     userStore.setUserInfo(userInfo);
     return userInfo;
   }

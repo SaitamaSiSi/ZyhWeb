@@ -7,10 +7,6 @@
 // <date>2024/09/19 11:15:37</date>
 //------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Zyh.Common.Threading
 {
     public static class IWorkerExtension

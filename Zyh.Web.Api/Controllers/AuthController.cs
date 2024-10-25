@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using ZyhWebApi.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.IO.Pipelines;
+using Zyh.Common.Net;
+using Zyh.Web.Api.Core;
+using Zyh.Web.Api.Models;
 
-namespace ZyhWebApi.Controllers
+namespace Zyh.Web.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -16,53 +18,71 @@ namespace ZyhWebApi.Controllers
         }
 
         [HttpPost, Route("logout")]
-        public string Logout([FromBody] AuthCondition condition)
+        public ReqResult<string> Logout([FromBody] LoginParams condition)
         {
-            string json = @$"{{
-  ""code"": 0,
-  ""data"": """",
-  ""error"": null,
-  ""message"": ""ok""
-}}";
-            return json;
+            LoginManager.Logout(condition.username);
+            return ReqResult<string>.Success("Logout");
         }
 
         [HttpPost, Route("login")]
-        public string Login([FromBody] AuthCondition condition)
+        public ReqResult<LoginResult> Login([FromBody] LoginParams condition)
         {
-            string json = @$"{{
-  ""code"": 0,
-  ""data"": {{
-    ""id"": 0,
-    ""password"": ""123456"",
-    ""realName"": ""Vben"",
-    ""roles"": [
-      ""super""
-    ],
-    ""username"": ""vben"",
-    ""accessToken"": ""eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwicGFzc3dvcmQiOiIxMjM0NTYiLCJyZWFsTmFtZSI6IlZiZW4iLCJyb2xlcyI6WyJzdXBlciJdLCJ1c2VybmFtZSI6InZiZW4iLCJpYXQiOjE3MjU5MzA3OTIsImV4cCI6MTcyNjUzNTU5Mn0.psoA46Gacz8lCLqHMsy_odZGsDuyjJI_7TIPFveySlw""
-  }},
-  ""error"": null,
-  ""message"": ""ok""
-}}";
-            return json;
+
+            LoginResult loginResult = new LoginResult();
+            loginResult.username = condition.username;
+
+            if (!string.Equals(condition.password, "123456"))
+            {
+                loginResult.desc = "Password is worng";
+                return ReqResult<LoginResult>.Failed(loginResult);
+            }
+
+            loginResult.userId = "0";
+            loginResult.realName = condition.username.ToUpper();
+            loginResult.accessToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwicGFzc3dvcmQiOiIxMjM0NTYiLCJyZWFsTmFtZSI6IlZiZW4iLCJyb2xlcyI6WyJzdXBlciJdLCJ1c2VybmFtZSI6InZiZW4iLCJpYXQiOjE3MjU5MzA3OTIsImV4cCI6MTcyNjUzNTU5Mn0.psoA46Gacz8lCLqHMsy_odZGsDuyjJI_7TIPFveySlw";
+
+
+            LoginClient client = new LoginClient();
+            client.userInfo.realName = loginResult.realName;
+            client.userInfo.username = loginResult.username;
+            client.userInfo.userId = loginResult.userId;
+            switch (loginResult.username)
+            {
+                case "vben":
+                    {
+                        client.userInfo.roles.Add("super");
+                        client.userCodes.AddRange(new string[] {
+                            "AC_100100",
+                        });
+                        break;
+                    }
+                case "admin":
+                    {
+                        client.userInfo.roles.Add("admin");
+                        client.userCodes.AddRange(new string[] {
+                            "AC_100030",
+                        });
+                        break;
+                    }
+                default:
+                    {
+                        client.userInfo.roles.Add("user");
+                        client.userCodes.AddRange(new string[] {
+                            "AC_1000001"
+                        });
+                        break;
+                    }
+            }
+            LoginManager.Login(client);
+
+            return ReqResult<LoginResult>.Success(loginResult);
         }
 
-        [HttpGet, Route("codes")]
-        public string Codes()
+        [HttpPost, Route("codes")]
+        public ReqResult<List<string>> Codes([FromBody] LoginParams condition)
         {
-            string json = @$"{{
-  ""code"": 0,
-  ""data"": [
-    ""AC_100100"",
-    ""AC_100110"",
-    ""AC_100120"",
-    ""AC_100010""
-  ],
-  ""error"": null,
-  ""message"": ""ok""
-}}";
-            return json;
+            List<string> codes = LoginManager.GetCodes(condition.username);
+            return ReqResult<List<string>>.Success(codes);
         }
     }
 }

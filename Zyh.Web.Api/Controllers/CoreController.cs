@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json.Serialization;
-using ZyhWebApi.Models;
+using Zyh.Web.Api.Models;
 
-namespace ULIT.ICAPI.Controllers
+namespace Zyh.Web.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -22,7 +21,7 @@ namespace ULIT.ICAPI.Controllers
         }
 
         [HttpPost, Route("post")]
-        public string Post([FromBody] AuthCondition condition)
+        public string Post([FromBody] LoginParams condition)
         {
             return @"{""code"": 124, ""msg"": ""OkO""}";
             //            return @$"{{

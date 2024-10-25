@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using ULIT.ICAPI.Controllers;
+﻿using Microsoft.AspNetCore.Mvc;
+using Zyh.Common.Net;
+using Zyh.Web.Api.Core;
+using Zyh.Web.Api.Models;
 
-namespace ZyhWebApi.Controllers
+namespace Zyh.Web.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -15,23 +16,11 @@ namespace ZyhWebApi.Controllers
             _logger = logger;
         }
 
-        [HttpGet, Route("info")]
-        public string Info()
+        [HttpPost, Route("info")]
+        public ReqResult<UserInfo> Info([FromBody] LoginParams condition)
         {
-            string json = @$"{{
-  ""code"": 0,
-  ""data"": {{
-    ""id"": 0,
-    ""realName"": ""Vben"",
-    ""roles"": [
-      ""super""
-    ],
-    ""username"": ""vben""
-  }},
-  ""error"": null,
-  ""message"": ""ok""
-}}";
-            return json;
+            UserInfo info = LoginManager.GetInfo(condition.username);
+            return ReqResult<UserInfo>.Success(info);
         }
     }
 }

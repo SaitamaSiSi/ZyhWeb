@@ -58,6 +58,15 @@ async function vertyQrcodeBtn() {
     type: `${(IsVerty ? 'success' : 'error')}`,
   });    
 }
+
+
+
+import { AccessControl, useAccess } from '@vben/access';
+import { useUserStore } from '@vben/stores';
+import type { LoginAndRegisterParams } from '@vben/common-ui';
+const { accessMode, hasAccessByCodes } = useAccess();
+const userStore = useUserStore();
+
 </script>
 
 <template>
@@ -80,6 +89,92 @@ async function vertyQrcodeBtn() {
           验证二维码
         </ElButton>
       </ElSpace>
+    </ElCard>
+
+    <ElCard class="mb-5">
+      <span class="font-semibold">当前角色:</span>
+        <span class="text-primary mx-4 text-lg">
+          {{ userStore.userRoles?.[0] }}
+        </span>
+    </ElCard>
+
+    <ElCard class="mb-5">
+      <span class="font-semibold">组件形式控制 - 权限码:</span>
+      <AccessControl :codes="['AC_100100']" type="code">
+        <ElButton class="mr-4"> Super 账号可见 ["AC_100100"] </ElButton>
+      </AccessControl>
+      <AccessControl :codes="['AC_100030']" type="code">
+        <ElButton class="mr-4"> Admin 账号可见 ["AC_100030"] </ElButton>
+      </AccessControl>
+      <AccessControl :codes="['AC_1000001']" type="code">
+        <ElButton class="mr-4"> User 账号可见 ["AC_1000001"] </ElButton>
+      </AccessControl>
+      <AccessControl :codes="['AC_100100', 'AC_100030']" type="code">
+        <ElButton class="mr-4">
+          Super & Admin 账号可见 ["AC_100100","AC_100030"]
+        </ElButton>
+      </AccessControl>
+    </ElCard>
+
+    <ElCard
+      v-if="accessMode === 'frontend'"
+      class="mb-5"
+    >
+    <span class="font-semibold">组件形式控制 - 角色:</span>
+      <AccessControl :codes="['super']" type="role">
+        <ElButton class="mr-4"> Super 角色可见 </ElButton>
+      </AccessControl>
+      <AccessControl :codes="['admin']" type="role">
+        <ElButton class="mr-4"> Admin 角色可见 </ElButton>
+      </AccessControl>
+      <AccessControl :codes="['user']" type="role">
+        <ElButton class="mr-4"> User 角色可见 </ElButton>
+      </AccessControl>
+      <AccessControl :codes="['super', 'admin']" type="role">
+        <ElButton class="mr-4"> Super & Admin 角色可见 </ElButton>
+      </AccessControl>
+    </ElCard>
+
+    <ElCard class="mb-5">
+      <span class="font-semibold">函数形式控制:</span>
+      <ElButton v-if="hasAccessByCodes(['AC_100100'])" class="mr-4">
+        Super 账号可见 ["AC_100100"]
+      </ElButton>
+      <ElButton v-if="hasAccessByCodes(['AC_100030'])" class="mr-4">
+        Admin 账号可见 ["AC_100030"]
+      </ElButton>
+      <ElButton v-if="hasAccessByCodes(['AC_1000001'])" class="mr-4">
+        User 账号可见 ["AC_1000001"]
+      </ElButton>
+      <ElButton v-if="hasAccessByCodes(['AC_100100', 'AC_100030'])" class="mr-4">
+        Super & Admin 账号可见 ["AC_100100","AC_100030"]
+      </ElButton>
+    </ElCard>
+
+    <ElCard class="mb-5">
+      <span class="font-semibold">指令方式 - 权限码:</span>
+      <ElButton class="mr-4" v-access:code="['AC_100100']">
+        Super 账号可见 ["AC_100100"]
+      </ElButton>
+      <ElButton class="mr-4" v-access:code="['AC_100030']">
+        Admin 账号可见 ["AC_100030"]
+      </ElButton>
+      <ElButton class="mr-4" v-access:code="['AC_1000001']">
+        User 账号可见 ["AC_1000001"]
+      </ElButton>
+      <ElButton class="mr-4" v-access:code="['AC_100100', 'AC_100030']">
+        Super & Admin 账号可见 ["AC_100100","AC_100030"]
+      </ElButton>
+    </ElCard>
+
+    <ElCard class="mb-5">
+      <span class="font-semibold">指令方式 - 角色:</span>
+      <ElButton class="mr-4" v-access:role="['super']"> Super 角色可见 </ElButton>
+      <ElButton class="mr-4" v-access:role="['admin']"> Admin 角色可见 </ElButton>
+      <ElButton class="mr-4" v-access:role="['user']"> User 角色可见 </ElButton>
+      <ElButton class="mr-4" v-access:role="['super', 'admin']">
+        Super & Admin 角色可见
+      </ElButton>
     </ElCard>
   </Page>
 </template>
