@@ -5,6 +5,9 @@ using Zyh.Web.Api.Models;
 
 namespace Zyh.Web.Api.Controllers
 {
+    /// <summary>
+    /// Qrcode二维码相关接口
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class QrCodeController : ControllerBase

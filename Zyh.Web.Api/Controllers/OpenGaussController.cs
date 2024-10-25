@@ -8,6 +8,9 @@ using Zyh.Data.Service.OpenGauss;
 
 namespace Zyh.Web.Api.Controllers
 {
+    /// <summary>
+    /// openGauss数据库操作相关接口
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class OpenGaussController : ControllerBase

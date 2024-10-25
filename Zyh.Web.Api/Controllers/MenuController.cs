@@ -4,7 +4,9 @@ using Zyh.Web.Api.Models;
 
 namespace ZyhWebApi.Controllers
 {
-
+    /// <summary>
+    /// 路由菜单相关接口
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class MenuController : ControllerBase

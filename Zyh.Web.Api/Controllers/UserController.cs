@@ -5,6 +5,9 @@ using Zyh.Web.Api.Models;
 
 namespace Zyh.Web.Api.Controllers
 {
+    /// <summary>
+    /// 登录用户信息相关接口
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase

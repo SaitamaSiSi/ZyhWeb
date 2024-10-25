@@ -3,6 +3,9 @@ using Zyh.Web.Api.Models;
 
 namespace Zyh.Web.Api.Controllers
 {
+    /// <summary>
+    /// 测试相关接口
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class CoreController : ControllerBase
