@@ -6,6 +6,7 @@
 
 using SqlSugar;
 using System.Data;
+using System.Security.Claims;
 using Zyh.Data.Entity.Condition;
 using Zyh.Data.Entity.OpenGauss;
 using Zyh.Data.Provider.Core;
@@ -14,18 +15,11 @@ namespace Zyh.Data.Provider.OpenGauss
 {
     public class LedEquipProvider : ProviderBase<LedEquipEntity>
     {
-        protected const string TableName = "t_led_equip";
-        protected readonly SqlSugarClient Provider;
+        protected const string TableName = "T_LED_EQUIP";
 
         public LedEquipProvider(string connectString)
         {
             ConnectString = connectString;
-            Provider = new SqlSugarClient(new ConnectionConfig()
-            {
-                ConnectionString = ConnectString,
-                DbType = SqlSugar.DbType.PostgreSQL,
-                IsAutoCloseConnection = true//自动释放
-            });
         }
 
         private LedEquipEntity ConvertToEntity(DataRow row)
@@ -35,9 +29,19 @@ namespace Zyh.Data.Provider.OpenGauss
                 Id = row["id"].ToString() ?? string.Empty,
                 Name = row["name"].ToString() ?? string.Empty,
                 Type = row["type"] == DBNull.Value ? default : Convert.ToInt32(row["type"].ToString()),
-                Alarm = row["alarm"] == DBNull.Value ? default : Convert.ToBoolean(row["alarm"].ToString()),
                 ApplyAt = row["apply_at"] == DBNull.Value ? default : Convert.ToDateTime(row["apply_at"].ToString())
             };
+
+            string? sAlarm = row["alarm"].ToString();
+            if (int.TryParse(sAlarm, out int iAlarm))
+            {
+                entity.Alarm = Convert.ToBoolean(iAlarm);
+            }
+            else
+            {
+                entity.Alarm = Convert.ToBoolean(sAlarm);
+            }
+
             return entity;
         }
 
@@ -85,11 +89,11 @@ namespace Zyh.Data.Provider.OpenGauss
 
             if (!string.IsNullOrEmpty(condition.Id))
             {
-                whereSql += " and id = @Id ";
+                whereSql += " and " + (IsLikeMysql ? "id" : "\"id\"") + " = @Id ";
             }
             if (!string.IsNullOrEmpty(condition.Name))
             {
-                whereSql += " and name like @Name ";
+                whereSql += " and " + (IsLikeMysql ? "name" : "\"name\"") + " like @Name ";
             }
 
             return whereSql;
@@ -113,7 +117,7 @@ namespace Zyh.Data.Provider.OpenGauss
 
         public virtual List<LedEquipEntity> FindAll()
         {
-            DataTable dt = Provider.Ado.GetDataTable($"select * from {TableName}");
+            DataTable dt = SqlSugarScopeObject.Ado.GetDataTable($"select * from {TableName}");
             return ConvertToEntityList(dt);
         }
 
@@ -125,9 +129,9 @@ namespace Zyh.Data.Provider.OpenGauss
 
             int startIndex = (condition.PageIndex - 1) * condition.PageSize + 1;
             int endIndex = condition.PageIndex * condition.PageSize;
-            string pagerSql = $"select * from ({sql + whereSql}) where RowIndex between {startIndex} and {endIndex}";
+            string pagerSql = $"select * from ({sql + whereSql}) AS subquery where RowIndex between {startIndex} and {endIndex}";
 
-            DataTable dt = Provider.Ado.GetDataTable(pagerSql, parameters);
+            DataTable dt = SqlSugarScopeObject.Ado.GetDataTable(pagerSql, parameters);
             return ConvertToEntityList(dt);
         }
 
@@ -137,31 +141,35 @@ namespace Zyh.Data.Provider.OpenGauss
             string whereSql = GetSql(condition);
             Dictionary<string, object> parameters = GetParams(condition);
 
-            DataTable dt = Provider.Ado.GetDataTable(sql + whereSql + " Limit 1", parameters);
+            DataTable dt = SqlSugarScopeObject.Ado.GetDataTable(sql + whereSql + " Limit 1", parameters);
             return ConvertToEntityList(dt).FirstOrDefault() ?? new LedEquipEntity();
         }
 
         public virtual int Insert(LedEquipEntity entity)
         {
-            return Provider.Insertable(ConvertFromEntity(entity)).AS(TableName).ExecuteCommand();
+            if (string.IsNullOrEmpty(entity.Id))
+            {
+                long snowId = SnowFlakeSingle.Instance.NextId();
+                entity.Id = snowId.ToString();
+                return SqlSugarScopeObject.Insertable(ConvertFromEntity(entity)).AS(TableName).ExecuteCommand();
+            }
+            else
+            {
+                return SqlSugarScopeObject.Insertable(ConvertFromEntity(entity)).AS(TableName).ExecuteCommand();
+            }
         }
 
         public virtual int Update(LedEquipEntity entity)
         {
-            return Provider.Updateable(ConvertFromEntity(entity, true)).AS(TableName).WhereColumns("id").ExecuteCommand();
+            return SqlSugarScopeObject.Updateable(ConvertFromEntity(entity, true)).AS(TableName).WhereColumns("id").ExecuteCommand();
         }
 
         public virtual int Delete(LedEquipCondition condition)
         {
-            string whereSql = "id in (@Id) ";
+            string whereSql = (IsLikeMysql ? "id" : "\"id\"") + " in (@Id) ";
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("Id", condition.Ids);
-            return Provider.Deleteable<object>().AS(TableName).Where(whereSql, parameters).ExecuteCommand();
+            return SqlSugarScopeObject.Deleteable<object>().AS(TableName).Where(whereSql, parameters).ExecuteCommand();
         }
-
-        //db.Insertable(insertObj).ExecuteCommand(); //都是参数化实现 
-        //db.Insertable(insertObj).ExecuteReturnIdentity();
-        //返回雪花ID 看文档3.1具体用法（在最底部）
-        //long id = db.Insertable(实体).ExecuteReturnSnowflakeId();
     }
 }

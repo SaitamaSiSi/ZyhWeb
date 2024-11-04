@@ -4,6 +4,7 @@ using Zyh.Common.Net;
 using Zyh.Data.Entity.Condition;
 using Zyh.Data.Entity.Core;
 using Zyh.Data.Entity.OpenGauss;
+using Zyh.Data.Provider.Core;
 using Zyh.Data.Service.OpenGauss;
 
 namespace Zyh.Web.Api.Controllers
@@ -15,21 +16,17 @@ namespace Zyh.Web.Api.Controllers
     [ApiController]
     public class OpenGaussController : ControllerBase
     {
-        private OpenGaussConfig _config { get; set; }
-
-        private LedEquipService _ledEquipService { get; set; }
+        private LedEquipService _ledEquipService = new LedEquipService(SqlSugarInstance.GetConnectString());
 
         public OpenGaussController()
         {
-            _config = new OpenGaussConfig()
-            {
-                Host = "192.168.100.188",
-                Port = 5432,
-                Database = "db_led",
-                UserId = "test",
-                UserPwd = "test@123",
-            };
-            _ledEquipService = new LedEquipService(_config.GetConnectString());
+        }
+
+        [HttpPost, Route("test"), AllowAnonymous]
+        public ReqResult<string> Test([FromBody] LedEquipCondition condition)
+        {
+            _ledEquipService.Test(!string.IsNullOrEmpty(condition.Id));
+            return ReqResult<string>.Success(string.Empty);
         }
 
         [HttpPost, Route("findAll"), AllowAnonymous]

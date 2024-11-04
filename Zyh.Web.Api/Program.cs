@@ -1,3 +1,4 @@
+using Zyh.Data.Provider.Core;
 using Zyh.Plugins.Manager;
 
 namespace Zyh.Web.Api
@@ -23,6 +24,7 @@ namespace Zyh.Web.Api
             _host = CreateHostBuilder(args).Build();
 
             InitPlugins();
+            InitSqlSugar();
 
             using (var serviceScope = _host.Services.CreateScope())
             {
@@ -87,6 +89,70 @@ namespace Zyh.Web.Api
             _watcher.EnableRaisingEvents = true;//启动监控
 
             #endregion
+        }
+
+        /// <summary>
+        /// 初始化SqlSugar部分配置，用于连接openGauss
+        /// </summary>
+        protected static void InitSqlSugar()
+        {
+            #region openGauss
+
+            //SqlSugarInstance.Type = SqlSugar.DbType.OpenGauss;
+            //SqlSugarInstance.Host = "192.168.100.188";
+            //SqlSugarInstance.Port = 5432;
+            //SqlSugarInstance.Database = "db_led";
+            //SqlSugarInstance.UserId = "test";
+            //SqlSugarInstance.UserPwd = "test@123";
+
+            #endregion
+
+            #region dm
+
+            //SqlSugarInstance.Type = SqlSugar.DbType.Dm;
+            //SqlSugarInstance.Host = "192.168.100.198";
+            //SqlSugarInstance.Port = 5236;
+            //SqlSugarInstance.Database = "DMHR";
+            //SqlSugarInstance.UserId = "SYSDBA";
+            //SqlSugarInstance.UserPwd = "654#@!qaz";
+
+            #endregion
+
+            #region aliyun
+
+            //SqlSugarInstance.Type = SqlSugar.DbType.PostgreSQL;
+            //SqlSugarInstance.Host = "192.168.100.198";
+            //SqlSugarInstance.Port = 5432;
+            //SqlSugarInstance.Database = "db_led";
+            //SqlSugarInstance.UserId = "zyh";
+            //SqlSugarInstance.UserPwd = "zyh@123";
+
+            #endregion
+
+            #region oceanbase
+
+            SqlSugarInstance.Type = SqlSugar.DbType.OceanBase;
+            SqlSugarInstance.Host = "192.168.100.178";
+            SqlSugarInstance.Port = 2881;
+            SqlSugarInstance.Database = "db_led";
+            SqlSugarInstance.UserId = "root";
+            SqlSugarInstance.UserPwd = "654#@!qaz";
+
+            #endregion
+
+            // 不能共享的情况都要有独的WorkId
+            SqlSugar.SnowFlakeSingle.WorkId = 1;
+            //SqlSugar.StaticConfig.CustomSnowFlakeFunc = () =>
+            //{
+            //    // 自定义你的雪花ID方法
+            //    return long.MinValue;
+            //};
+            //var ran = new Random();
+            //SqlSugar.StaticConfig.CustomSnowFlakeTimeErrorFunc = () =>
+            //{
+            //    // 系统临时故障,出现时间回退使用临时算法插入
+            //    return ran.Next(16, 18);
+            //};
         }
 
         private static void OnProcess(object source, FileSystemEventArgs e)

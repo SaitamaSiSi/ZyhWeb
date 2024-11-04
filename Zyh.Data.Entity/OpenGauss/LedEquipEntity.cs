@@ -4,7 +4,6 @@
 // <date>2024/10/24 14:57:48</date>
 //------------------------------------------------------------------------------
 
-using System.Runtime.Serialization;
 using Zyh.Data.Entity.Core;
 
 namespace Zyh.Data.Entity.OpenGauss

@@ -7,7 +7,9 @@ import { ref } from 'vue';
 import { ElButton, ElCard, ElInput, ElNotification, ElSpace } from 'element-plus';
 
 import { corePostApi } from '#/api/core/core';
-import { GetQrcodeApi, VertyQrcodeApi } from '#/api';
+import { GetQrcodeApi, VertyQrcodeApi,
+  FindAllApi, GetPagerApi, GetApi, InsertApi, UpdateApi, DeleteApi
+ } from '#/api';
 
 const { refresh } = useRefresh();
 type NotificationType = 'error' | 'info' | 'success' | 'warning';
@@ -58,6 +60,31 @@ async function vertyQrcodeBtn() {
     type: `${(IsVerty ? 'success' : 'error')}`,
   });    
 }
+async function openGaussClick(flag) {
+  switch (flag) {
+    case 0: {
+      const { IsVerty } = await VertyQrcodeApi({
+    vertyValue: vertyCode.value
+  });
+      break;
+    }
+    case 1: {
+      break;
+    }
+    case 2: {
+      break;
+    }
+    case 3: {
+      break;
+    }
+    case 4: {
+      break;
+    }
+    case 5: {
+      break;
+    }
+  }
+}
 
 
 
@@ -71,6 +98,30 @@ const userStore = useUserStore();
 
 <template>
   <Page description="Home页面描述" title="Home页面">
+    <ElCard class="mb-5">
+      <template #header> 按钮 </template>
+      <ElSpace>
+        <ElButton type="primary" @click="openGaussClick(0)">
+          查询
+        </ElButton>
+        <ElButton type="primary" @click="sendReqBtn(1)">
+          分页查询
+        </ElButton>
+        <ElButton type="primary" @click="getQrcodeBtn(2)">
+          获取
+        </ElButton>
+        <ElButton type="primary" @click="vertyQrcodeBtn(3)">
+          插入
+        </ElButton>
+        <ElButton type="primary" @click="vertyQrcodeBtn(4)">
+          编辑
+        </ElButton>
+        <ElButton type="primary" @click="vertyQrcodeBtn(5)">
+          删除
+        </ElButton>
+      </ElSpace>
+    </ElCard>
+
     <ElCard class="mb-5">
       <template #header> 按钮 </template>
       <ElSpace>

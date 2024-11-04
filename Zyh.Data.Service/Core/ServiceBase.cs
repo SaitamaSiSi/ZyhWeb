@@ -10,5 +10,6 @@ namespace Zyh.Data.Service.Core
 {
     public class ServiceBase<T> where T : IEntity
     {
+        protected string ConnectString = "";
     }
 }
