@@ -1,3 +1,9 @@
+using MySqlConnector;
+using Npgsql;
+using System.Data;
+using System.Data.Common;
+using Zyh.Common.Data;
+using Zyh.Data.Entity.OpenGauss;
 using Zyh.Data.Provider.Core;
 using Zyh.Plugins.Manager;
 
@@ -25,6 +31,7 @@ namespace Zyh.Web.Api
 
             InitPlugins();
             InitSqlSugar();
+            InitDapper(configuration);
 
             using (var serviceScope = _host.Services.CreateScope())
             {
@@ -98,12 +105,12 @@ namespace Zyh.Web.Api
         {
             #region openGauss
 
-            //SqlSugarInstance.Type = SqlSugar.DbType.OpenGauss;
-            //SqlSugarInstance.Host = "192.168.100.188";
-            //SqlSugarInstance.Port = 5432;
-            //SqlSugarInstance.Database = "db_led";
-            //SqlSugarInstance.UserId = "test";
-            //SqlSugarInstance.UserPwd = "test@123";
+            SqlSugarInstance.Type = SqlSugar.DbType.OpenGauss;
+            SqlSugarInstance.Host = "192.168.100.168";
+            SqlSugarInstance.Port = 5432;
+            SqlSugarInstance.Database = "db_led";
+            SqlSugarInstance.UserId = "test";
+            SqlSugarInstance.UserPwd = "test@123";
 
             #endregion
 
@@ -131,12 +138,12 @@ namespace Zyh.Web.Api
 
             #region oceanbase
 
-            SqlSugarInstance.Type = SqlSugar.DbType.OceanBase;
-            SqlSugarInstance.Host = "192.168.100.178";
-            SqlSugarInstance.Port = 2881;
-            SqlSugarInstance.Database = "db_led";
-            SqlSugarInstance.UserId = "root";
-            SqlSugarInstance.UserPwd = "654#@!qaz";
+            //SqlSugarInstance.Type = SqlSugar.DbType.OceanBase;
+            //SqlSugarInstance.Host = "192.168.100.178";
+            //SqlSugarInstance.Port = 2881;
+            //SqlSugarInstance.Database = "db_led";
+            //SqlSugarInstance.UserId = "root";
+            //SqlSugarInstance.UserPwd = "654#@!qaz";
 
             #endregion
 
@@ -153,6 +160,89 @@ namespace Zyh.Web.Api
             //    // 系统临时故障,出现时间回退使用临时算法插入
             //    return ran.Next(16, 18);
             //};
+        }
+
+        /// <summary>
+        /// 初始化Dapper数据库连接，测试数据库使用
+        /// </summary>
+        /// <param name="configuration"></param>
+        protected static void InitDapper(IConfigurationRoot configuration)
+        {
+            var connStr = configuration.GetSection("ConnectionStrings").GetValue<string>("DefaultConnectionString");
+            DbProviderFactories.RegisterFactory("DmClientFactory", Dm.DmClientFactory.Instance); // 达梦，使用需要授权收费
+            // DbProviderFactories.RegisterFactory("Npgsql", NpgsqlFactory.Instance); // openGauss
+            // DbProviderFactories.RegisterFactory("MySqlConnector", MySqlConnectorFactory.Instance); // mysql
+            Environment.SetEnvironmentVariable("DefaultConnectionString.ProviderName", "DmClientFactory");
+            Environment.SetEnvironmentVariable("DefaultConnectionString", connStr);
+
+            bool btest = true;
+            if (btest)
+            {
+                var sql = "SELECT * FROM T_LED_EQUIP";
+
+                var result1 = new List<LedEquipEntity>();
+                using (var scope = DataContextScope.GetCurrent("DefaultConnectionString").Begin())
+                {
+                    result1 = scope.DataContext.Query<LedEquipEntity>(sql);
+                }
+
+                var result2 = new List<LedEquipEntity>();
+                using (var scope = DataContextScope.GetCurrent("DefaultConnectionString").Begin())
+                {
+                    using var table = scope.DataContext.QueryDataTable(sql);
+                    foreach (DataRow row in table.Rows)
+                    {
+                        LedEquipEntity entity = new LedEquipEntity
+                        {
+                            Id = row["id"].ToString() ?? string.Empty,
+                            Name = row["name"].ToString() ?? string.Empty,
+                            Type = row["type"] == DBNull.Value ? default : Convert.ToInt32(row["type"].ToString()),
+                            ApplyAt = row["apply_at"] == DBNull.Value ? default : Convert.ToDateTime(row["apply_at"].ToString())
+                        };
+
+                        // 达梦数据库范围的不存在bool类型，返回的是0,1
+                        string? sAlarm = row["alarm"].ToString();
+                        if (int.TryParse(sAlarm, out int iAlarm))
+                        {
+                            entity.Alarm = Convert.ToBoolean(iAlarm);
+                        }
+                        else
+                        {
+                            entity.Alarm = Convert.ToBoolean(sAlarm);
+                        }
+
+                        result2.Add(entity);
+                    }
+                }
+
+                var result3 = new List<LedEquipEntity>();
+                using (var scope = DataContextScope.GetCurrent("DefaultConnectionString").Begin())
+                {
+                    using var cmd = scope.DataContext.DatabaseObject.GetSqlStringCommand(sql);
+
+                    using var reader = scope.DataContext.ExecuteReader(cmd);
+                    while (reader.Read())
+                    {
+                        // Fill方法
+                        var ent = new LedEquipEntity();
+                        ent.Id = reader["id"].ToString() ?? string.Empty;
+                        ent.Name = reader["name"].ToString() ?? string.Empty;
+                        ent.Type = reader["type"] == DBNull.Value ? default : Convert.ToInt32(reader["type"].ToString());
+                        ent.ApplyAt = reader["apply_at"] == DBNull.Value ? default : Convert.ToDateTime(reader["apply_at"].ToString());
+                        result3.Add(ent);
+
+                        string? sAlarm = reader["alarm"].ToString();
+                        if (int.TryParse(sAlarm, out int iAlarm))
+                        {
+                            ent.Alarm = Convert.ToBoolean(iAlarm);
+                        }
+                        else
+                        {
+                            ent.Alarm = Convert.ToBoolean(sAlarm);
+                        }
+                    }
+                }
+            }
         }
 
         private static void OnProcess(object source, FileSystemEventArgs e)
