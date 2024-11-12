@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
@@ -172,6 +173,17 @@ namespace Zyh.Web.Api
             {
                 env.WebRootPath = Path.Combine(rootPath, wwwroot);
             }
+
+            //var fileServerOptions = new FileServerOptions()
+            //{
+            //    EnableDefaultFiles = true,
+            //    // 是否显示文件夹
+            //    EnableDirectoryBrowsing = false,
+            //    RequestPath = "/tips/api/file/v1",
+            //    FileProvider = new PhysicalFileProvider("")
+            //};
+            //fileServerOptions.StaticFileOptions.ServeUnknownFileTypes = true;
+            //app.UseFileServer(fileServerOptions);
         }
     }
 }

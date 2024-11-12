@@ -50,7 +50,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Data.Entity", "Zyh.Data
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Data.Service", "Zyh.Data.Service\Zyh.Data.Service.csproj", "{80DBCA97-97A8-4CF9-83DF-A7A92BF4D538}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zyh.Common.Data", "Zyh.Common.Data\Zyh.Common.Data.csproj", "{7BBB2AC6-6EB4-42AF-937F-26FF52D1DF58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Common.Data", "Zyh.Common.Data\Zyh.Common.Data.csproj", "{7BBB2AC6-6EB4-42AF-937F-26FF52D1DF58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
