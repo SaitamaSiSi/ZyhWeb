@@ -1,15 +1,15 @@
 ﻿//------------------------------------------------------------------------------
 // <author>Zhuo YuHan</author>
 // <email>1719700768@qq.com</email>
-// <date>2024/10/24 15:33:34</date>
+// <date>2024/11/12 15:31:25</date>
 //------------------------------------------------------------------------------
 
-using Zyh.Data.Entity.Core;
+using Zyh.Common.Entity.Core;
 
-namespace Zyh.Data.Service.Core
+namespace Zyh.Common.Service.Core
 {
     public class ServiceBase<T> where T : IEntity
     {
-        protected string ConnectString = "";
+        protected string ConnectString = "DefaultConnectionString";
     }
 }

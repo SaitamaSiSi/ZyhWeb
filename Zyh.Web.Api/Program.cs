@@ -1,10 +1,7 @@
-using MySqlConnector;
-using Npgsql;
 using System.Data;
 using System.Data.Common;
 using Zyh.Common.Data;
-using Zyh.Data.Entity.OpenGauss;
-using Zyh.Data.Provider.Core;
+using Zyh.Common.Entity.Entities;
 using Zyh.Plugins.Manager;
 
 namespace Zyh.Web.Api
@@ -98,19 +95,16 @@ namespace Zyh.Web.Api
             #endregion
         }
 
-        /// <summary>
-        /// 初始化SqlSugar部分配置，用于连接openGauss
-        /// </summary>
         protected static void InitSqlSugar()
         {
             #region openGauss
 
-            SqlSugarInstance.Type = SqlSugar.DbType.OpenGauss;
-            SqlSugarInstance.Host = "192.168.100.168";
-            SqlSugarInstance.Port = 5432;
-            SqlSugarInstance.Database = "db_led";
-            SqlSugarInstance.UserId = "test";
-            SqlSugarInstance.UserPwd = "test@123";
+            //SqlSugarInstance.Type = SqlSugar.DbType.OpenGauss;
+            //SqlSugarInstance.Host = "192.168.100.168";
+            //SqlSugarInstance.Port = 5432;
+            //SqlSugarInstance.Database = "db_led";
+            //SqlSugarInstance.UserId = "test";
+            //SqlSugarInstance.UserPwd = "test@123";
 
             #endregion
 
@@ -146,20 +140,6 @@ namespace Zyh.Web.Api
             //SqlSugarInstance.UserPwd = "654#@!qaz";
 
             #endregion
-
-            // 不能共享的情况都要有独的WorkId
-            SqlSugar.SnowFlakeSingle.WorkId = 1;
-            //SqlSugar.StaticConfig.CustomSnowFlakeFunc = () =>
-            //{
-            //    // 自定义你的雪花ID方法
-            //    return long.MinValue;
-            //};
-            //var ran = new Random();
-            //SqlSugar.StaticConfig.CustomSnowFlakeTimeErrorFunc = () =>
-            //{
-            //    // 系统临时故障,出现时间回退使用临时算法插入
-            //    return ran.Next(16, 18);
-            //};
         }
 
         /// <summary>
@@ -175,9 +155,23 @@ namespace Zyh.Web.Api
             Environment.SetEnvironmentVariable("DefaultConnectionString.ProviderName", "DmClientFactory");
             Environment.SetEnvironmentVariable("DefaultConnectionString", connStr);
 
-            bool btest = true;
+            bool btest = false;
             if (btest)
             {
+                #region 插入
+
+                using (var scope = DataContextScope.GetCurrent("DefaultConnectionString").Begin(true))
+                {
+                    string insertSql = "INSERT INTO T_LED_DICT (NAME, CATG_ID, DICT_KEY, DICT_VALUE) VALUES (:Name, :CatgId, :DictKey, :DictValue);Select @@IDENTITY";
+                    var id = scope.DataContext.ExecuteScalar<Int64>(insertSql, new { Name = "testName", CatgId = "1", DictKey = "3", DictValue = "3" });
+
+                    scope.Commit();
+                }
+
+                #endregion
+
+                #region 查询
+
                 var sql = "SELECT * FROM T_LED_EQUIP";
 
                 var result1 = new List<LedEquipEntity>();
@@ -242,6 +236,8 @@ namespace Zyh.Web.Api
                         }
                     }
                 }
+
+                #endregion
             }
         }
 

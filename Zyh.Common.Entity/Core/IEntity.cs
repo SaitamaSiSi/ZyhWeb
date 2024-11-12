@@ -1,10 +1,10 @@
 ﻿//------------------------------------------------------------------------------
 // <author>Zhuo YuHan</author>
 // <email>1719700768@qq.com</email>
-// <date>2024/10/24 14:52:02</date>
+// <date>2024/11/12 15:22:19</date>
 //------------------------------------------------------------------------------
 
-namespace Zyh.Data.Entity.Core
+namespace Zyh.Common.Entity.Core
 {
     public interface IEntity
     {

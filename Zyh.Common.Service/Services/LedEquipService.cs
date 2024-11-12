@@ -1,52 +1,46 @@
 ﻿//------------------------------------------------------------------------------
 // <author>Zhuo YuHan</author>
 // <email>1719700768@qq.com</email>
-// <date>2024/10/24 15:35:02</date>
+// <date>2024/11/12 15:31:53</date>
 //------------------------------------------------------------------------------
 
-using SqlSugar;
-using Zyh.Data.Entity.Condition;
-using Zyh.Data.Entity.OpenGauss;
-using Zyh.Data.Provider.Core;
-using Zyh.Data.Provider.OpenGauss;
-using Zyh.Data.Service.Core;
+using System;
+using System.Collections.Generic;
+using Zyh.Common.Data;
+using Zyh.Common.Entity.Condition;
+using Zyh.Common.Entity.Entities;
+using Zyh.Common.Provider.Providers;
+using Zyh.Common.Service.Core;
 
-namespace Zyh.Data.Service.OpenGauss
+namespace Zyh.Common.Service.Services
 {
     public class LedEquipService : ServiceBase<LedEquipEntity>
     {
-        protected readonly LedEquipProvider Provider;
-        public LedEquipService(string connectString)
-        {
-            ConnectString = connectString;
-            Provider = new LedEquipProvider(ConnectString);
-        }
+        protected readonly LedEquipProvider Provider = new LedEquipProvider();
 
         public void Test(bool b)
         {
-            using (SqlSugarScope scope = SqlSugarInstance.GetCurrent(ConnectString))
+            using (var scope = DataContextScope.GetCurrent(ConnectString).Begin(true))
             {
                 try
                 {
-                    scope.BeginTran();
                     Provider.Insert(new LedEquipEntity() { Name = "test1" });
                     Provider.Insert(new LedEquipEntity() { Name = "test2" });
                     if (b)
                     {
                         throw new Exception("异常");
                     }
-                    scope.CommitTran();
+                    scope.Commit();
                 }
                 catch (Exception)
                 {
-                    scope.RollbackTran();
                 }
             }
         }
 
         public List<LedEquipEntity> FindAll()
         {
-            using (SqlSugarScope scope = SqlSugarInstance.GetCurrent(ConnectString))
+            using (var scope = DataContextScope.GetCurrent(ConnectString).Begin())
             {
                 return Provider.FindAll();
             }
@@ -54,7 +48,7 @@ namespace Zyh.Data.Service.OpenGauss
 
         public List<LedEquipEntity> GetPager(LedEquipCondition condition)
         {
-            using (SqlSugarScope scope = SqlSugarInstance.GetCurrent(ConnectString))
+            using (var scope = DataContextScope.GetCurrent(ConnectString).Begin())
             {
                 return Provider.GetPager(condition);
             }
@@ -62,7 +56,7 @@ namespace Zyh.Data.Service.OpenGauss
 
         public LedEquipEntity Get(LedEquipCondition condition)
         {
-            using (SqlSugarScope scope = SqlSugarInstance.GetCurrent(ConnectString))
+            using (var scope = DataContextScope.GetCurrent(ConnectString).Begin())
             {
                 return Provider.Get(condition);
             }
@@ -70,7 +64,7 @@ namespace Zyh.Data.Service.OpenGauss
 
         public bool Insert(LedEquipEntity entity)
         {
-            using (SqlSugarScope scope = SqlSugarInstance.GetCurrent(ConnectString))
+            using (var scope = DataContextScope.GetCurrent(ConnectString).Begin())
             {
                 return Provider.Insert(entity) > 0;
             }
@@ -78,7 +72,7 @@ namespace Zyh.Data.Service.OpenGauss
 
         public bool Update(LedEquipEntity entity)
         {
-            using (SqlSugarScope scope = SqlSugarInstance.GetCurrent(ConnectString))
+            using (var scope = DataContextScope.GetCurrent(ConnectString).Begin())
             {
                 return Provider.Update(entity) > 0;
             }
@@ -86,7 +80,7 @@ namespace Zyh.Data.Service.OpenGauss
 
         public bool Delete(LedEquipCondition condition)
         {
-            using (SqlSugarScope scope = SqlSugarInstance.GetCurrent(ConnectString))
+            using (var scope = DataContextScope.GetCurrent(ConnectString).Begin())
             {
                 return Provider.Delete(condition) > 0;
             }

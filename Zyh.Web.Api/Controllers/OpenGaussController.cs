@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Zyh.Common.Entity.Condition;
+using Zyh.Common.Entity.Entities;
 using Zyh.Common.Net;
-using Zyh.Data.Entity.Condition;
-using Zyh.Data.Entity.Core;
-using Zyh.Data.Entity.OpenGauss;
-using Zyh.Data.Provider.Core;
-using Zyh.Data.Service.OpenGauss;
+using Zyh.Common.Service.Services;
 
 namespace Zyh.Web.Api.Controllers
 {
@@ -16,7 +14,7 @@ namespace Zyh.Web.Api.Controllers
     [ApiController]
     public class OpenGaussController : ControllerBase
     {
-        private LedEquipService _ledEquipService = new LedEquipService(SqlSugarInstance.GetConnectString());
+        private LedEquipService _ledEquipService = new LedEquipService();
 
         public OpenGaussController()
         {

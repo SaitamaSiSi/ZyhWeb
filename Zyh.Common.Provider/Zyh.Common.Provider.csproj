@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DM.DmProvider" Version="8.3.1.28188" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Zyh.Common.Data\Zyh.Common.Data.csproj" />
+    <ProjectReference Include="..\Zyh.Common.Entity\Zyh.Common.Entity.csproj" />
+  </ItemGroup>
+
+</Project>

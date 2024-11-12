@@ -1,19 +1,17 @@
 ﻿//------------------------------------------------------------------------------
 // <author>Zhuo YuHan</author>
 // <email>1719700768@qq.com</email>
-// <date>2024/10/24 14:57:48</date>
+// <date>2024/11/12 15:20:40</date>
 //------------------------------------------------------------------------------
 
-using Zyh.Data.Entity.Core;
+using System.Collections.Generic;
 
-namespace Zyh.Data.Entity.OpenGauss
+namespace Zyh.Common.Entity.Condition
 {
-    public class LedEquipEntity : IEntity
+    public class LedEquipCondition : PagerCondition
     {
         public string Id { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
-        public int? Type { get; set; }
-        public bool? Alarm { get; set; }
-        public DateTime? ApplyAt { get; set; }
+        public List<string> Ids { get; set; } = new List<string>();
     }
 }
