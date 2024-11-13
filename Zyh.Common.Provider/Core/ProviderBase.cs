@@ -75,7 +75,7 @@ namespace Zyh.Common.Provider.Core
 
         protected string GetAutoIncrement()
         {
-            return DatabaseType == Data.ZyhDbType.Dm ? "; Select @@IDENTITY" : "";
+            return DatabaseType == Data.ZyhDbType.Dm ? "; Select @@IDENTITY; " : "";
         }
     }
 }

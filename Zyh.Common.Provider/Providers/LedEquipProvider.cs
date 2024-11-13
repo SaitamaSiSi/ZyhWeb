@@ -66,7 +66,7 @@ namespace Zyh.Common.Provider.Providers
             {
                 if (isLike)
                 {
-                    whereSql += " and NAME like @Name ";
+                    whereSql += " and NAME like CONCAT('%', @Name, '%')";
                 }
                 else
                 {
@@ -77,17 +77,17 @@ namespace Zyh.Common.Provider.Providers
             return whereSql;
         }
 
-        private DbParameter[] GetParams(LedEquipCondition condition, bool isLike = true)
+        private DbParameter[] GetParams(LedEquipCondition condition)
         {
             switch (DatabaseType)
             {
                 case Data.ZyhDbType.Dm:
-                    return GetDmParams(condition, isLike);
+                    return GetDmParams(condition);
             }
             return new DbParameter[0];
         }
 
-        private DbParameter[] GetDmParams(LedEquipCondition condition, bool isLike = true)
+        private DbParameter[] GetDmParams(LedEquipCondition condition)
         {
             List<Dm.DmParameter> parameters = new List<Dm.DmParameter>();
 
@@ -97,7 +97,7 @@ namespace Zyh.Common.Provider.Providers
             }
             if (!string.IsNullOrEmpty(condition.Name))
             {
-                parameters.Add(new Dm.DmParameter("Name", isLike ? $"%{condition.Name}%" : condition.Name));
+                parameters.Add(new Dm.DmParameter("Name", condition.Name));
             }
 
             return parameters.ToArray();
@@ -127,7 +127,7 @@ namespace Zyh.Common.Provider.Providers
         {
             string selectSql = $"SELECT * FROM {TableName} WHERE 1=1 ";
             string whereSql = GetWhereSql(condition, false);
-            DbParameter[] parameters = GetParams(condition, false);
+            DbParameter[] parameters = GetParams(condition);
 
             string sql = CheckSqlChar(selectSql + whereSql + " Limit 1");
 
