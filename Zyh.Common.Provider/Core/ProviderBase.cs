@@ -72,5 +72,10 @@ namespace Zyh.Common.Provider.Core
                 return sql.Replace(':', '@');
             }
         }
+
+        protected string GetAutoIncrement()
+        {
+            return DatabaseType == Data.ZyhDbType.Dm ? "; Select @@IDENTITY" : "";
+        }
     }
 }

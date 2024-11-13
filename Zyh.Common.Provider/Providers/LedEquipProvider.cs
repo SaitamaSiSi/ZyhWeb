@@ -93,11 +93,11 @@ namespace Zyh.Common.Provider.Providers
 
             if (!string.IsNullOrEmpty(condition.Id))
             {
-                parameters.Add(new Dm.DmParameter("Id", Dm.DmDbType.VarChar) { Value = condition.Id, Direction = ParameterDirection.Input });
+                parameters.Add(new Dm.DmParameter("Id", condition.Id));
             }
             if (!string.IsNullOrEmpty(condition.Name))
             {
-                parameters.Add(new Dm.DmParameter("Name", Dm.DmDbType.VarChar) { Value = (isLike ? $"%{condition.Name}%" : condition.Name), Direction = ParameterDirection.Input });
+                parameters.Add(new Dm.DmParameter("Name", isLike ? $"%{condition.Name}%" : condition.Name));
             }
 
             return parameters.ToArray();
@@ -137,8 +137,15 @@ namespace Zyh.Common.Provider.Providers
 
         public virtual int Insert(LedEquipEntity entity)
         {
-            string sql = CheckSqlChar($"INSERT INTO {TableName} VALUES (@Id, @Name, @Type, @Alarm, @ApplyAt)") + (DatabaseType == Data.ZyhDbType.Dm ? "; Select @@IDENTITY" : "");
-            return DataContextObject.ExecuteScalar<int>(sql, entity);
+            string sql = CheckSqlChar($"INSERT INTO {TableName} VALUES (@Id, @Name, @Type, @Alarm, @ApplyAt)");
+            return DataContextObject.ExecuteScalar<int>(sql, new
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Type = entity.Type ?? 0,
+                Alarm = entity.Alarm ?? false,
+                ApplyAt = entity.ApplyAt ?? DateTime.Now
+            });
         }
 
         public virtual int Update(LedEquipEntity entity)
