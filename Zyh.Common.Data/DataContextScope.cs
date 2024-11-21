@@ -8,7 +8,7 @@ using System;
 using System.Data;
 using System.Threading;
 
-namespace Zyh.Common.Data
+namespace Zyh.Common.Entity
 {
     public class DataContextScope : IDisposable
     {
@@ -43,6 +43,12 @@ namespace Zyh.Common.Data
             }
 
             return ctx;
+        }
+
+        public static void ClearCurrent()
+        {
+            Local.Value?.Dispose();
+            Local.Value = null;
         }
 
         public DataContextScope Begin()

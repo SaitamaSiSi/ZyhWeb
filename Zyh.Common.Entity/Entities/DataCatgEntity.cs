@@ -5,9 +5,8 @@
 //------------------------------------------------------------------------------
 
 using System;
-using Zyh.Common.Entity.Core;
 
-namespace Zyh.Common.Entity.Entities
+namespace Zyh.Common.Entity
 {
     public class DataCatgEntity : ICloneable, IEntity
     {

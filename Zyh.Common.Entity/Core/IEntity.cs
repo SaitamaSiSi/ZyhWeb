@@ -4,7 +4,7 @@
 // <date>2024/11/12 15:22:19</date>
 //------------------------------------------------------------------------------
 
-namespace Zyh.Common.Entity.Core
+namespace Zyh.Common.Entity
 {
     public interface IEntity
     {

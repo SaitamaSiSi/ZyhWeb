@@ -1,15 +1,14 @@
 ﻿//------------------------------------------------------------------------------
 // <author>Zhuo YuHan</author>
 // <email>1719700768@qq.com</email>
-// <date>2024/11/12 16:14:16</date>
+// <date>2024/11/12 15:31:25</date>
 //------------------------------------------------------------------------------
 
-namespace Zyh.Common.Data
+using Zyh.Common.Entity;
+
+namespace Zyh.Common.Service
 {
-    public enum ZyhDbType
+    public class SqlServiceBase<T> where T : IEntity
     {
-        Dm = 1,
-        Mysql = 2,
-        OpenGauss = 3
     }
 }

@@ -1,7 +1,7 @@
 using System.Data;
 using System.Data.Common;
 using Zyh.Common.Data;
-using Zyh.Common.Entity.Entities;
+using Zyh.Common.Entity;
 using Zyh.Plugins.Manager;
 
 namespace Zyh.Web.Api
@@ -154,91 +154,6 @@ namespace Zyh.Web.Api
             // DbProviderFactories.RegisterFactory("MySqlConnector", MySqlConnectorFactory.Instance); // mysql
             Environment.SetEnvironmentVariable("DefaultConnectionString.ProviderName", "DmClientFactory");
             Environment.SetEnvironmentVariable("DefaultConnectionString", connStr);
-
-            bool btest = false;
-            if (btest)
-            {
-                #region 插入
-
-                using (var scope = DataContextScope.GetCurrent("DefaultConnectionString").Begin(true))
-                {
-                    string insertSql = "INSERT INTO T_LED_DICT (NAME, CATG_ID, DICT_KEY, DICT_VALUE) VALUES (:Name, :CatgId, :DictKey, :DictValue);Select @@IDENTITY";
-                    var id = scope.DataContext.ExecuteScalar<Int64>(insertSql, new { Name = "testName", CatgId = "1", DictKey = "3", DictValue = "3" });
-
-                    scope.Commit();
-                }
-
-                #endregion
-
-                #region 查询
-
-                var sql = "SELECT * FROM T_LED_EQUIP";
-
-                var result1 = new List<LedEquipEntity>();
-                using (var scope = DataContextScope.GetCurrent("DefaultConnectionString").Begin())
-                {
-                    result1 = scope.DataContext.Query<LedEquipEntity>(sql);
-                }
-
-                var result2 = new List<LedEquipEntity>();
-                using (var scope = DataContextScope.GetCurrent("DefaultConnectionString").Begin())
-                {
-                    using var table = scope.DataContext.QueryDataTable(sql);
-                    foreach (DataRow row in table.Rows)
-                    {
-                        LedEquipEntity entity = new LedEquipEntity
-                        {
-                            Id = row["id"].ToString() ?? string.Empty,
-                            Name = row["name"].ToString() ?? string.Empty,
-                            Type = row["type"] == DBNull.Value ? default : Convert.ToInt32(row["type"].ToString()),
-                            ApplyAt = row["apply_at"] == DBNull.Value ? default : Convert.ToDateTime(row["apply_at"].ToString())
-                        };
-
-                        // 达梦数据库范围的不存在bool类型，返回的是0,1
-                        string? sAlarm = row["alarm"].ToString();
-                        if (int.TryParse(sAlarm, out int iAlarm))
-                        {
-                            entity.Alarm = Convert.ToBoolean(iAlarm);
-                        }
-                        else
-                        {
-                            entity.Alarm = Convert.ToBoolean(sAlarm);
-                        }
-
-                        result2.Add(entity);
-                    }
-                }
-
-                var result3 = new List<LedEquipEntity>();
-                using (var scope = DataContextScope.GetCurrent("DefaultConnectionString").Begin())
-                {
-                    using var cmd = scope.DataContext.DatabaseObject.GetSqlStringCommand(sql);
-
-                    using var reader = scope.DataContext.ExecuteReader(cmd);
-                    while (reader.Read())
-                    {
-                        // Fill方法
-                        var ent = new LedEquipEntity();
-                        ent.Id = reader["id"].ToString() ?? string.Empty;
-                        ent.Name = reader["name"].ToString() ?? string.Empty;
-                        ent.Type = reader["type"] == DBNull.Value ? default : Convert.ToInt32(reader["type"].ToString());
-                        ent.ApplyAt = reader["apply_at"] == DBNull.Value ? default : Convert.ToDateTime(reader["apply_at"].ToString());
-                        result3.Add(ent);
-
-                        string? sAlarm = reader["alarm"].ToString();
-                        if (int.TryParse(sAlarm, out int iAlarm))
-                        {
-                            ent.Alarm = Convert.ToBoolean(iAlarm);
-                        }
-                        else
-                        {
-                            ent.Alarm = Convert.ToBoolean(sAlarm);
-                        }
-                    }
-                }
-
-                #endregion
-            }
         }
 
         private static void OnProcess(object source, FileSystemEventArgs e)

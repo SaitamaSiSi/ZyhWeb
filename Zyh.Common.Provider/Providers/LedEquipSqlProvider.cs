@@ -12,13 +12,25 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using Zyh.Common.Entity;
+using Zyh.Common.Provider.Base;
 
 
-namespace Zyh.Common.Entity
+namespace Zyh.Common.Provider
 {
     
     
-    public partial class LedEquipEntity
+    public partial class LedEquipSqlProvider : LedEquipSqlProviderBase
     {
+        
+        public LedEquipSqlProvider() : 
+                base()
+        {
+        }
+        
+        public LedEquipSqlProvider(string connectionName) : 
+                base(connectionName)
+        {
+        }
     }
 }

@@ -5,15 +5,24 @@
 //------------------------------------------------------------------------------
 
 using Zyh.Common.Data;
-using Zyh.Common.Entity.Core;
+using Zyh.Common.Entity;
 
-namespace Zyh.Common.Provider.Core
+namespace Zyh.Common.Provider
 {
-    public class ProviderBase<T> where T : IEntity
+    public class SqlProviderBase<T> where T : IEntity
     {
         protected string ConnectString = "DefaultConnectionString";
 
-        protected ZyhDbType DatabaseType
+        public SqlProviderBase()
+        {
+        }
+
+        public SqlProviderBase(string connectionName)
+        {
+            ConnectString = connectionName;
+        }
+
+        protected DatabaseType DatabaseType
         {
             get
             {
@@ -25,7 +34,7 @@ namespace Zyh.Common.Provider.Core
         {
             get
             {
-                if (DatabaseType == ZyhDbType.Dm)
+                if (DatabaseType == DatabaseType.Dm)
                 {
                     return true;
                 }
@@ -75,7 +84,7 @@ namespace Zyh.Common.Provider.Core
 
         protected string GetAutoIncrement()
         {
-            return DatabaseType == Data.ZyhDbType.Dm ? "; Select @@IDENTITY; " : "";
+            return DatabaseType == Data.DatabaseType.Dm ? "; Select @@IDENTITY; " : "";
         }
     }
 }

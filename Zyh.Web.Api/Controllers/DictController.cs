@@ -10,7 +10,7 @@ namespace Zyh.Web.Api.Controllers
     [ApiController]
     public class DictController : ControllerBase
     {
-        private DataDictService _dataDictService = new DataDictService();
+        private DataDictSqlService _dataDictService = new DataDictSqlService();
 
         public DictController()
         {
@@ -19,7 +19,6 @@ namespace Zyh.Web.Api.Controllers
         [HttpPost, Route("test"), AllowAnonymous]
         public ReqResult<string> Test()
         {
-            _dataDictService.Test();
             return ReqResult<string>.Success(string.Empty);
         }
 
