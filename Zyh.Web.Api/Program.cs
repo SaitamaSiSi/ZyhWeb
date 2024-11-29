@@ -30,6 +30,31 @@ namespace Zyh.Web.Api
             InitSqlSugar();
             InitDapper(configuration);
 
+            Mysql.TempUsers.SignInClients.TryAdd(
+                "vben",
+                new Models.UserInfo()
+                {
+                    userId = "vben",
+                    username = "vben",
+                    realName = "VBEN"
+                });
+            Mysql.TempUsers.SignInClients.TryAdd(
+                "admin",
+                new Models.UserInfo()
+                {
+                    userId = "admin",
+                    username = "admin",
+                    realName = "ADMIN"
+                });
+            Mysql.TempUsers.SignInClients.TryAdd(
+                "zyh",
+                new Models.UserInfo()
+                {
+                    userId = "zyh",
+                    username = "zyh",
+                    realName = "ZYH"
+                });
+
             using (var serviceScope = _host.Services.CreateScope())
             {
                 var services = serviceScope.ServiceProvider;

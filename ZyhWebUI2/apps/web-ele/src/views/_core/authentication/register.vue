@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { LoginAndRegisterParams } from '@vben/common-ui';
+import { registerApi } from '#/api';
 
 import { ref } from 'vue';
 
@@ -10,9 +11,14 @@ defineOptions({ name: 'Register' });
 
 const loading = ref(false);
 
-function handleSubmit(value: LoginAndRegisterParams) {
-  // eslint-disable-next-line no-console
+async function handleSubmit(value: LoginAndRegisterParams) {
+   
   console.log('register submit:', value);
+  // const { accessToken, username, desc } = await registerApi(value);
+  const { accessToken, username, desc } = await registerApi(value);
+  if (username == '') {
+    alert(desc)
+  }
 }
 </script>
 

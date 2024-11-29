@@ -3,6 +3,7 @@ using System.IO.Pipelines;
 using Zyh.Common.Net;
 using Zyh.Web.Api.Core;
 using Zyh.Web.Api.Models;
+using Zyh.Web.Api.Mysql;
 
 namespace Zyh.Web.Api.Controllers
 {
@@ -30,13 +31,18 @@ namespace Zyh.Web.Api.Controllers
         [HttpPost, Route("login")]
         public ReqResult<LoginResult> Login([FromBody] LoginParams condition)
         {
-
             LoginResult loginResult = new LoginResult();
             loginResult.username = condition.username;
 
+            if (!TempUsers.SignInClients.TryGetValue(condition.username, out _))
+            {
+                loginResult.desc = "用户不存在";
+                return ReqResult<LoginResult>.Failed(loginResult);
+            }
+
             if (!string.Equals(condition.password, "123456"))
             {
-                loginResult.desc = "Password is worng";
+                loginResult.desc = "密码不正确";
                 return ReqResult<LoginResult>.Failed(loginResult);
             }
 
@@ -77,6 +83,30 @@ namespace Zyh.Web.Api.Controllers
                     }
             }
             LoginManager.Login(client);
+
+            return ReqResult<LoginResult>.Success(loginResult);
+        }
+
+        [HttpPost, Route("register")]
+        public ReqResult<LoginResult> Register([FromBody] LoginParams condition)
+        {
+            LoginResult loginResult = new LoginResult();
+
+            if (!TempUsers.SignInClients.TryGetValue(condition.username, out _))
+            {
+                loginResult.desc = "该用户已存在";
+                return ReqResult<LoginResult>.Failed(loginResult);
+            }
+
+            TempUsers.SignInClients.TryAdd(condition.username, new UserInfo()
+            {
+                userId = condition.username,
+                realName = condition.username.ToUpper()
+            });
+
+            loginResult.userId = "0";
+            loginResult.realName = condition.username.ToUpper();
+            loginResult.accessToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwicGFzc3dvcmQiOiIxMjM0NTYiLCJyZWFsTmFtZSI6IlZiZW4iLCJyb2xlcyI6WyJzdXBlciJdLCJ1c2VybmFtZSI6InZiZW4iLCJpYXQiOjE3MjU5MzA3OTIsImV4cCI6MTcyNjUzNTU5Mn0.psoA46Gacz8lCLqHMsy_odZGsDuyjJI_7TIPFveySlw";
 
             return ReqResult<LoginResult>.Success(loginResult);
         }

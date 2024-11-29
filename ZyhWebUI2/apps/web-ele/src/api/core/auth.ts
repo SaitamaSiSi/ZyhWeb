@@ -48,6 +48,13 @@ export async function logoutApi() {
 }
 
 /**
+ * 注册
+ */
+export async function registerApi(data: AuthApi.LoginParams) {
+  return requestClient.post<AuthApi.LoginResult>('/auth/register', data);
+}
+
+/**
  * 获取用户权限码
  */
 
