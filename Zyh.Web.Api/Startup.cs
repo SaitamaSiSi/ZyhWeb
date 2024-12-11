@@ -45,14 +45,6 @@ namespace Zyh.Web.Api
             services.AddMvc(options =>
             {
                 options.EnableEndpointRouting = false;
-            }).AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.PropertyNamingPolicy = null;
-                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-            });
-            services.AddMvc(options =>
-            {
-                options.EnableEndpointRouting = false;
                 options.Filters.Add(typeof(AuthFilter));
                 options.Filters.Add(typeof(ApiActionFilter));
             }).AddJsonOptions(options =>

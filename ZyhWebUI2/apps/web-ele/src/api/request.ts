@@ -66,6 +66,7 @@ function createRequestClient(baseURL: string) {
 
       config.headers.Authorization = formatToken(accessStore.accessToken);
       config.headers['Accept-Language'] = preferences.app.locale;
+      config.headers['Authorization'] = 'Bearer 123'
       return config;
     },
   });
