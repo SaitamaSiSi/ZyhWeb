@@ -33,12 +33,14 @@ export const useAuthStore = defineStore('auth', () => {
     let userInfo: null | UserInfo = null;
     try {
       loginLoading.value = true;
-      const { accessToken, username, desc } = await loginApi(params);
+      const { accessToken, refreshToken, username, desc } = await loginApi(params);
 
       // 如果成功获取到 accessToken
-      if (accessToken) {
+      if (accessToken && refreshToken) {
         // 将 accessToken 存储到 accessStore 中
         accessStore.setAccessToken(accessToken);
+        // 将 refreshToken 存储到 accessStore 中
+        accessStore.setRefreshToken(refreshToken);
 
         // 获取用户信息并存储到 accessStore 中
         const [fetchUserInfoResult, accessCodes] = await Promise.all([

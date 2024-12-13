@@ -34,6 +34,7 @@ function createRequestClient(baseURL: string) {
     const accessStore = useAccessStore();
     const authStore = useAuthStore();
     accessStore.setAccessToken(null);
+    accessStore.setRefreshToken(null);
     if (
       preferences.app.loginExpiredMode === 'modal' &&
       accessStore.isAccessChecked
@@ -49,10 +50,13 @@ function createRequestClient(baseURL: string) {
    */
   async function doRefreshToken() {
     const accessStore = useAccessStore();
-    const resp = await refreshTokenApi();
-    const newToken = resp.data;
-    accessStore.setAccessToken(newToken);
-    return newToken;
+    const { accessToken } = await refreshTokenApi({
+      accessToken: formatToken(accessStore.accessToken),
+      refreshToken: formatToken(accessStore.refreshToken),
+    });
+    const newAccessToken = accessToken;
+    accessStore.setAccessToken(newAccessToken);
+    return newAccessToken;
   }
 
   function formatToken(token: null | string) {
@@ -66,7 +70,6 @@ function createRequestClient(baseURL: string) {
 
       config.headers.Authorization = formatToken(accessStore.accessToken);
       config.headers['Accept-Language'] = preferences.app.locale;
-      config.headers['Authorization'] = 'Bearer 123'
       return config;
     },
   });
@@ -90,7 +93,7 @@ function createRequestClient(baseURL: string) {
       client,
       doReAuthenticate,
       doRefreshToken,
-      enableRefreshToken: preferences.app.enableRefreshToken,
+      enableRefreshToken: true, // preferences.app.enableRefreshToken,
       formatToken,
     }),
   );

@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System.Reflection;
+using Zyh.Common.Net;
 using Zyh.Web.Api.Models;
 
 namespace Zyh.Web.Api.Controllers
@@ -28,9 +29,9 @@ namespace Zyh.Web.Api.Controllers
         }
 
         [HttpPost, Route("post")]
-        public string Post([FromBody] LoginParams condition)
+        public ReqResult<string> Post([FromBody] LoginParams condition)
         {
-            return @"{""code"": 124, ""msg"": ""OkO""}";
+            return ReqResult<string>.Success("Test");
             //            return @$"{{
             //  ""code"": 0,
             //  ""data"": {{

@@ -1,8 +1,12 @@
 using System.Data;
 using System.Data.Common;
+using System.IdentityModel.Tokens.Jwt;
 using Zyh.Common.Data;
 using Zyh.Common.Entity;
+using Zyh.Common.Security;
 using Zyh.Plugins.Manager;
+using Zyh.Web.Api.Models;
+using Zyh.Web.Api.Worker;
 
 namespace Zyh.Web.Api
 {
@@ -30,6 +34,12 @@ namespace Zyh.Web.Api
             InitSqlSugar();
             InitDapper(configuration);
 
+            #region 后续会被删除或调整
+
+            // 设置Token根密钥
+            JwtHelper.Init();
+
+            // 临时数据库中的用户
             Mysql.TempUsers.SignInClients.TryAdd(
                 "vben",
                 new Models.UserInfo()
@@ -55,18 +65,21 @@ namespace Zyh.Web.Api
                     realName = "ZYH"
                 });
 
+            // 启动Worker线程
             using (var serviceScope = _host.Services.CreateScope())
             {
                 var services = serviceScope.ServiceProvider;
 
                 try
                 {
-
+                    // InitWorkers(services);
                 }
                 catch (Exception ex)
                 {
                 }
             }
+
+            #endregion
 
             _logger.Debug("程序启动成功");
 
@@ -244,6 +257,12 @@ namespace Zyh.Web.Api
         }
 
         #endregion
+
+        static void InitWorkers(IServiceProvider services)
+        {
+            var taskThreadWorker = services.GetRequiredService<ITaskThreadWorker>();
+            taskThreadWorker.Start();
+        }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)

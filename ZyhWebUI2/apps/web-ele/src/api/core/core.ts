@@ -19,7 +19,7 @@ export namespace CoreApi {
  * post
  */
 export async function corePostApi(param: CoreApi.PostParams) {
-  return baseRequestClient.post<CoreApi.PostResult>('/core/post', param);
+  return requestClient.post<CoreApi.PostResult>('/core/post', param);
 }
 
 /**

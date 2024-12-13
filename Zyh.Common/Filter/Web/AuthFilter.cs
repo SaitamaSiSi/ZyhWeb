@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Zyh.Common.Net;
+using Microsoft.AspNetCore.Mvc;
+using Zyh.Common.Security;
+using System;
 
 namespace Zyh.Common.Filter.Web
 {
@@ -30,12 +34,28 @@ namespace Zyh.Common.Filter.Web
             }
 
             // 使文件流上传可再读取
-            context.HttpContext.Request.EnableBuffering();
+            // context.HttpContext.Request.EnableBuffering();
 
-            // ...
+            // 验证AccessToken
             string authorization = context.HttpContext.Request.Headers["Authorization"];
+            if (string.IsNullOrEmpty(authorization))
+            {
+                // AccessToken不存在，重新登录
+                context.Result = new JsonResult(new BaseResult(ResultStatus.Failed, 0x0401002));
+                context.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                return;
+            }
 
-            return;
+            // 认证过期
+            if (!JwtHelper.CheckToken(authorization, "vben"))
+            {
+                // AccessToken过期，重新请求refresh
+                context.Result = new JsonResult(new BaseResult(ResultStatus.Failed, 0x0401001));
+                context.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                return;
+            }
+
+            // context.HttpContext.Request.Body.Position = 0;
         }
     }
 }

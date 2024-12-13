@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 using Zyh.Common.Filter.Web;
+using Zyh.Web.Api.Worker;
 
 namespace Zyh.Web.Api
 {
@@ -24,6 +25,8 @@ namespace Zyh.Web.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<ITaskThreadWorker, TaskThreadWorker>();
+
             //上传文件大小限制Kestrel设置
             services.Configure<KestrelServerOptions>(options =>
             {

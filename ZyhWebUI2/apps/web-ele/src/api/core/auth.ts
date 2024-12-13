@@ -10,15 +10,11 @@ export namespace AuthApi {
   /** 登录接口返回值 */
   export interface LoginResult {
     accessToken: string;
+    refreshToken: string;
     desc: string;
     realName: string;
     userId: string;
     username: string;
-  }
-
-  export interface RefreshTokenResult {
-    data: string;
-    status: number;
   }
 }
 
@@ -32,18 +28,15 @@ export async function loginApi(data: AuthApi.LoginParams) {
 /**
  * 刷新accessToken
  */
-export async function refreshTokenApi() {
-  return baseRequestClient.post<AuthApi.RefreshTokenResult>('/auth/refresh', {
-    withCredentials: true,
-  });
+export async function refreshTokenApi(data : object) {
+  return requestClient.post<AuthApi.LoginResult>('/auth/refresh', data);
 }
 
 /**
  * 退出登录
  */
 export async function logoutApi() {
-  return baseRequestClient.post('/auth/logout', {
-    withCredentials: true,
+  return requestClient.post('/auth/logout', {
   });
 }
 

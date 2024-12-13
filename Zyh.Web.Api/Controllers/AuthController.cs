@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.IO.Pipelines;
+using System.Net;
 using Zyh.Common.Net;
+using Zyh.Common.Security;
 using Zyh.Web.Api.Core;
 using Zyh.Web.Api.Models;
 using Zyh.Web.Api.Mysql;
@@ -21,14 +24,14 @@ namespace Zyh.Web.Api.Controllers
             _logger = logger;
         }
 
-        [HttpPost, Route("logout")]
+        [HttpPost, Route("logout"), AllowAnonymous]
         public ReqResult<string> Logout([FromBody] LoginParams condition)
         {
             LoginManager.Logout(condition.username);
             return ReqResult<string>.Success("Logout");
         }
 
-        [HttpPost, Route("login")]
+        [HttpPost, Route("login"), AllowAnonymous]
         public ReqResult<LoginResult> Login([FromBody] LoginParams condition)
         {
             LoginResult loginResult = new LoginResult();
@@ -48,8 +51,8 @@ namespace Zyh.Web.Api.Controllers
 
             loginResult.userId = "0";
             loginResult.realName = condition.username.ToUpper();
-            loginResult.accessToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwicGFzc3dvcmQiOiIxMjM0NTYiLCJyZWFsTmFtZSI6IlZiZW4iLCJyb2xlcyI6WyJzdXBlciJdLCJ1c2VybmFtZSI6InZiZW4iLCJpYXQiOjE3MjU5MzA3OTIsImV4cCI6MTcyNjUzNTU5Mn0.psoA46Gacz8lCLqHMsy_odZGsDuyjJI_7TIPFveySlw";
-
+            loginResult.accessToken = JwtHelper.GenerateAccessToken("vben");
+            loginResult.refreshToken = JwtHelper.GenerateRefreshToken();
 
             LoginClient client = new LoginClient();
             client.userInfo.realName = loginResult.realName;
@@ -117,5 +120,23 @@ namespace Zyh.Web.Api.Controllers
             List<string> codes = LoginManager.GetCodes(condition.username);
             return ReqResult<List<string>>.Success(codes);
         }
+
+        [HttpPost, Route("refresh"), AllowAnonymous]
+        public ReqResult<LoginResult> Refresh([FromBody] LoginParams condition)
+        {
+            LoginResult refreshResult = new LoginResult();
+
+            if (!JwtHelper.CheckToken(condition.refreshToken, string.Empty))
+            {
+                // RefreshToken过期，重新登录
+                return ReqResult<LoginResult>.Failed(refreshResult, 0x0401003);
+            }
+
+            string token = condition.accessToken.Substring("Bearer ".Length).Trim();
+            refreshResult.accessToken = JwtHelper.RefreshToken(token);
+
+            return ReqResult<LoginResult>.Success(refreshResult);
+        }
+
     }
 }

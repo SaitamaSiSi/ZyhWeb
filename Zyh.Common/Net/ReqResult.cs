@@ -27,6 +27,24 @@ namespace Zyh.Common.Net
             return new ReqResult<T>(data, ResultStatus.Failed, 0, "error");
         }
 
+        public static ReqResult<T> Success(T data, int code)
+        {
+            return new ReqResult<T>(data, ResultStatus.Success, code, "ok");
+        }
+        public static ReqResult<T> Failed(T data, int code)
+        {
+            return new ReqResult<T>(data, ResultStatus.Failed, code, "error");
+        }
+
+        public static ReqResult<T> Success(T data, int code, string msg)
+        {
+            return new ReqResult<T>(data, ResultStatus.Success, code, msg);
+        }
+        public static ReqResult<T> Failed(T data, int code, string msg)
+        {
+            return new ReqResult<T>(data, ResultStatus.Failed, code, msg);
+        }
+
         public string ToJsonString()
         {
             return JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings
