@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Page } from '@vben/common-ui';
 import { useRefresh } from '@vben/hooks';
-     
+
 import { ref } from 'vue';
 
 import { ElButton, ElCard, ElInput, ElNotification, ElSpace } from 'element-plus';
@@ -55,9 +55,8 @@ async function vertyQrcodeBtn() {
     duration: 2500,
     message: `验证${(IsVerty ? '成功' : '失败')}`,
     type: `${(IsVerty ? 'success' : 'error')}`,
-  });    
+  });
 }
-
 
 
 import { AccessControl, useAccess } from '@vben/access';
@@ -92,9 +91,9 @@ const userStore = useUserStore();
 
     <ElCard class="mb-5">
       <span class="font-semibold">当前角色:</span>
-        <span class="text-primary mx-4 text-lg">
-          {{ userStore.userRoles?.[0] }}
-        </span>
+      <span class="text-primary mx-4 text-lg">
+        {{ userStore.userRoles?.[0] }}
+      </span>
     </ElCard>
 
     <ElCard class="mb-5">
@@ -115,11 +114,8 @@ const userStore = useUserStore();
       </AccessControl>
     </ElCard>
 
-    <ElCard
-      v-if="accessMode === 'frontend'"
-      class="mb-5"
-    >
-    <span class="font-semibold">组件形式控制 - 角色:</span>
+    <ElCard v-if="accessMode === 'frontend'" class="mb-5">
+      <span class="font-semibold">组件形式控制 - 角色:</span>
       <AccessControl :codes="['super']" type="role">
         <ElButton class="mr-4"> Super 角色可见 </ElButton>
       </AccessControl>

@@ -34,3 +34,34 @@ export const getVideoStreamType = (type: string) => {
 export function getRandomInt(min: number, max: number): number {
   return Math.random() * (max - min + 1) + min;
 }
+
+export function _isMp4(path: string) {
+  const reg = new RegExp('.mp4', 'i')
+  return reg.test(path)
+}
+
+export function _isVideo(path: string) {
+  const reg = new RegExp('video', 'i')
+  return reg.test(path)
+}
+
+export function _isGif(path: string) {
+  const reg = new RegExp('.gif', 'i')
+  return reg.test(path)
+}
+
+export function _isImage(path: string) {
+  const reg = new RegExp('.jpg|.jepg|.png|.bmp|.svg|.gif', 'i')
+  return reg.test(path)
+}
+
+export function _isImageType(path: string) {
+  const reg = new RegExp('image', 'i')
+  return reg.test(path)
+}
+
+export function _isUnknowVideo(path: string) {
+  const reg = new RegExp('.rm|.flv', 'i')
+  return reg.test(path)
+}
+

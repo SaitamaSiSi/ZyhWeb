@@ -34,7 +34,7 @@ namespace Zyh.Common.Filter.Web
             }
 
             // 使文件流上传可再读取
-            // context.HttpContext.Request.EnableBuffering();
+            context.HttpContext.Request.EnableBuffering();
 
             // 验证AccessToken
             string authorization = context.HttpContext.Request.Headers["Authorization"];
@@ -55,7 +55,7 @@ namespace Zyh.Common.Filter.Web
                 return;
             }
 
-            // context.HttpContext.Request.Body.Position = 0;
+            context.HttpContext.Request.Body.Position = 0;
         }
     }
 }

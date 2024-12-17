@@ -26,6 +26,7 @@ class RequestClient {
   // 刷新token队列
   public refreshTokenQueue: ((token: string) => void)[] = [];
   public upload: FileUploader['upload'];
+  public upload2: FileUploader['upload2'];
 
   /**
    * 构造函数，用于创建Axios实例
@@ -56,6 +57,8 @@ class RequestClient {
     // 实例化文件上传器
     const fileUploader = new FileUploader(this);
     this.upload = fileUploader.upload.bind(fileUploader);
+    const fileUploader2 = new FileUploader(this);
+    this.upload2 = fileUploader2.upload2.bind(fileUploader2);
     // 实例化文件下载器
     const fileDownloader = new FileDownloader(this);
     this.download = fileDownloader.download.bind(fileDownloader);

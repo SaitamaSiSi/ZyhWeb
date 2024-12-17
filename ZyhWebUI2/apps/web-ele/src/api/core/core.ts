@@ -28,3 +28,11 @@ export async function corePostApi(param: CoreApi.PostParams) {
 export async function coreGetApi() {
   return requestClient.get<string>('/core/get');
 }
+
+export async function coreUploadApi(fileData: Blob) {
+  return requestClient.upload('/core/upload', fileData);
+}
+
+export async function coreUploadApi2(formData: FormData) {
+  return requestClient.upload2('/core/upload', formData);
+}

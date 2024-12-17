@@ -27,6 +27,22 @@ class FileUploader {
 
     return this.client.post(url, formData, finalConfig);
   }
+
+  public async upload2(
+    url: string,
+    formData: FormData,
+    config?: AxiosRequestConfig,
+  ): Promise<AxiosResponse> {
+    const finalConfig: AxiosRequestConfig = {
+      ...config,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        ...config?.headers,
+      },
+    };
+
+    return this.client.post(url, formData, finalConfig);
+  }
 }
 
 export { FileUploader };

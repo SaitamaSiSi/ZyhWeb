@@ -46,11 +46,11 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ZyhWebUI2", "ZyhWebUI2\", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Common.Data", "Zyh.Common.Data\Zyh.Common.Data.csproj", "{7BBB2AC6-6EB4-42AF-937F-26FF52D1DF58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zyh.Common.Provider", "Zyh.Common.Provider\Zyh.Common.Provider.csproj", "{E755B05D-8BEB-4F36-BB6D-15F23DDFF15C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Common.Provider", "Zyh.Common.Provider\Zyh.Common.Provider.csproj", "{E755B05D-8BEB-4F36-BB6D-15F23DDFF15C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zyh.Common.Service", "Zyh.Common.Service\Zyh.Common.Service.csproj", "{E6C50EA5-CAD9-4BCB-B1DB-D7AD6944C8EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Common.Service", "Zyh.Common.Service\Zyh.Common.Service.csproj", "{E6C50EA5-CAD9-4BCB-B1DB-D7AD6944C8EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zyh.Common.Entity", "Zyh.Common.Entity\Zyh.Common.Entity.csproj", "{2DA0EF34-ACA5-43A4-B413-1C16F59CCC00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Common.Entity", "Zyh.Common.Entity\Zyh.Common.Entity.csproj", "{2DA0EF34-ACA5-43A4-B413-1C16F59CCC00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,7 +71,6 @@ Global
 		{46F3C307-04FA-4A0A-B734-946BE32E8154}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46F3C307-04FA-4A0A-B734-946BE32E8154}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E1AFCE3B-0A9C-4B1B-B71B-CA2EB3471587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E1AFCE3B-0A9C-4B1B-B71B-CA2EB3471587}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1AFCE3B-0A9C-4B1B-B71B-CA2EB3471587}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1AFCE3B-0A9C-4B1B-B71B-CA2EB3471587}.Release|Any CPU.Build.0 = Release|Any CPU
 		{16630992-C724-4674-9BA3-761C406012A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
