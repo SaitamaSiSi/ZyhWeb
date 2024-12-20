@@ -64,7 +64,7 @@ namespace Zyh.Web.Api
                     Version = "v1.0",
                     Title = "WebApi",
                     Description = @"测试",
-                    TermsOfService = new Uri("https://zyh.com"),
+                    TermsOfService = new Uri("https://h.cqzyh.cn:2083"),
                     Contact = new OpenApiContact
                     {
                         Name = "zyh",
@@ -169,16 +169,20 @@ namespace Zyh.Web.Api
                 env.WebRootPath = Path.Combine(rootPath, wwwroot);
             }
 
-            //var fileServerOptions = new FileServerOptions()
-            //{
-            //    EnableDefaultFiles = true,
-            //    // 是否显示文件夹
-            //    EnableDirectoryBrowsing = false,
-            //    RequestPath = "/tips/api/file/v1",
-            //    FileProvider = new PhysicalFileProvider("")
-            //};
-            //fileServerOptions.StaticFileOptions.ServeUnknownFileTypes = true;
-            //app.UseFileServer(fileServerOptions);
+            var physicalPath = "F:\\ZyhGitHub\\111NotGitHub\\TestResource";
+            if (Directory.Exists(physicalPath))
+            {
+                var fileServerOptions = new FileServerOptions()
+                {
+                    EnableDefaultFiles = true,
+                    // 是否显示文件夹
+                    EnableDirectoryBrowsing = false,
+                    RequestPath = "/api/file/v1",
+                    FileProvider = new PhysicalFileProvider(physicalPath)
+                };
+                fileServerOptions.StaticFileOptions.ServeUnknownFileTypes = true;
+                app.UseFileServer(fileServerOptions);
+            }
         }
     }
 }

@@ -1,11 +1,6 @@
-using System.Data;
 using System.Data.Common;
-using System.IdentityModel.Tokens.Jwt;
-using Zyh.Common.Data;
-using Zyh.Common.Entity;
 using Zyh.Common.Security;
 using Zyh.Plugins.Manager;
-using Zyh.Web.Api.Models;
 using Zyh.Web.Api.Worker;
 
 namespace Zyh.Web.Api
@@ -33,6 +28,21 @@ namespace Zyh.Web.Api
             InitPlugins();
             InitSqlSugar();
             InitDapper(configuration);
+
+            #region 测试贝塞尔曲线绘制
+
+            //var bPath = new Common.Dto.BezierPath();
+            //bPath.Source.X = 20;
+            //bPath.Source.Y = 20;
+            //bPath.Source.Status = "#FF0000";
+            //bPath.Target.X = 200;
+            //bPath.Target.Y = 20;
+            //bPath.Target.Status = "#FF0000";
+            //bPath.Vertices.Add(new Common.Dto.BezierPosition() { X = 20, Y = 100, IsControl = true });
+            //bPath.Vertices.Add(new Common.Dto.BezierPosition() { X = 200, Y = 100, IsControl = true });
+            //BezierUtils.BezierToImage(bPath);
+
+            #endregion
 
             #region 后续会被删除或调整
 
