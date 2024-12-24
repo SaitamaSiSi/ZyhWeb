@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 using Zyh.Common.Filter.Web;
+using Zyh.Web.Api.Models;
 using Zyh.Web.Api.Worker;
 
 namespace Zyh.Web.Api
@@ -14,12 +15,12 @@ namespace Zyh.Web.Api
         public const string wwwroot = "wwwroot";
         public const string resources = "resources";
         public IConfiguration Configuration { get; }
-
-        public IConfiguration OcelotConfiguration { get; set; }
+        public WebSetting Setting { get; set; }
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            Setting = new WebSetting();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -44,6 +45,9 @@ namespace Zyh.Web.Api
                 opt.MultipartBodyLengthLimit = long.MaxValue;
                 opt.ValueLengthLimit = int.MaxValue;
             });
+
+            services.Configure<WebSetting>(Configuration.GetSection(nameof(WebSetting)));
+            Configuration.Bind(nameof(WebSetting), this.Setting);
 
             services.AddMvc(options =>
             {
@@ -169,7 +173,7 @@ namespace Zyh.Web.Api
                 env.WebRootPath = Path.Combine(rootPath, wwwroot);
             }
 
-            var physicalPath = "F:\\ZyhGitHub\\111NotGitHub\\TestResource";
+            var physicalPath = Configuration.GetSection("WebSetting").GetValue<string>("ResourceDir");
             if (Directory.Exists(physicalPath))
             {
                 var fileServerOptions = new FileServerOptions()
