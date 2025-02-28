@@ -1,0 +1,145 @@
+.editor-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px;
+}
+
+.main-content {
+    display: flex;
+    gap: 10px;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.toolbar button {
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
+.toolbar .aspect-ratio-toggle {
+    margin-left: auto;
+}
+
+#canvas {
+    border: 1px solid #ccc;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex: 1;
+    min-width: 600px;
+}
+
+.draggable-text, .draggable-image {
+    cursor: move;
+    user-select: none;
+}
+
+.draggable-video {
+    cursor: move;
+    user-select: none;
+}
+
+/* 确保视频控件可以正常使用 */
+.draggable-video video {
+    pointer-events: all;
+}
+
+/* 当拖拽时禁用视频控件 */
+.draggable-video.dragging video {
+    pointer-events: none;
+}
+
+button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.resize-handle {
+    fill: white;
+    stroke: #4CAF50;
+    stroke-width: 2;
+    cursor: se-resize;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.element-group:hover .resize-handle,
+.element-group.selected .resize-handle {
+    opacity: 1;
+}
+
+.selected {
+    outline: 2px solid #4CAF50;
+}
+
+.element-border {
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.selected .element-border {
+    opacity: 1;
+}
+
+.control-point {
+    fill: white;
+    stroke: #4CAF50;
+    stroke-width: 2;
+}
+
+.properties-panel {
+    width: 200px;
+    padding: 20px;
+    background: #f5f5f5;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+}
+
+.properties-panel h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.property-group {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.property-group label {
+    font-size: 14px;
+    color: #666;
+}
+
+.property-group input {
+    width: 100px;
+    padding: 4px 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.hidden {
+    display: none;
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG拖拽编辑器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="editor-container">
+        <div class="toolbar">
+            <button onclick="addText()">添加文本</button>
+            <button onclick="addImage()">添加图片</button>
+            <button onclick="addVideo()">添加视频</button>
+            <button onclick="addBackground()">设置背景</button>
+            <div class="aspect-ratio-toggle">
+                <input type="checkbox" id="lockAspectRatio" />
+                <label for="lockAspectRatio">锁定宽高比</label>
+            </div>
+            <input type="file" id="imageInput" accept="image/*" style="display: none;">
+            <input type="file" id="videoInput" accept="video/*" style="display: none;">
+            <input type="file" id="backgroundInput" accept="image/*" style="display: none;">
+        </div>
+        <div class="main-content">
+            <svg id="canvas" width="800" height="600">
+                <!-- 背景图片 -->
+                <image id="background" width="800" height="600" preserveAspectRatio="xMidYMid slice"/>
+                <!-- 网格背景 -->
+                <defs>
+                    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#ccc" stroke-width="0.5"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)"/>
+            </svg>
+            <div class="properties-panel">
+                <div id="elementProperties" class="hidden">
+                    <h3>元素属性</h3>
+                    <div class="property-group">
+                        <label>位置 X:</label>
+                        <input type="number" id="elementX" onchange="updateElementProperty('x', this.value)">
+                    </div>
+                    <div class="property-group">
+                        <label>位置 Y:</label>
+                        <input type="number" id="elementY" onchange="updateElementProperty('y', this.value)">
+                    </div>
+                    <div class="property-group">
+                        <label>宽度:</label>
+                        <input type="number" id="elementWidth" onchange="updateElementProperty('width', this.value)">
+                    </div>
+                    <div class="property-group">
+                        <label>高度:</label>
+                        <input type="number" id="elementHeight" onchange="updateElementProperty('height', this.value)">
+                    </div>
+                    <div class="property-group">
+                        <label>旋转角度:</label>
+                        <input type="number" id="elementAngle" onchange="updateElementProperty('angle', this.value)">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 

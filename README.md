@@ -1,3 +1,3 @@
 # ZyhWeb
 
-## Personal Stydy
+## Personal Study
