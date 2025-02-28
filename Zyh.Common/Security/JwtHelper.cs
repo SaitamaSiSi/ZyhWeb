@@ -1,18 +1,8 @@
-﻿//------------------------------------------------------------------------------
-// <author>Zhuo YuHan</author>
-// <email>1719700768@qq.com</email>
-// <date>2024/12/12 16:07:38</date>
-//------------------------------------------------------------------------------
-
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
+﻿using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace Zyh.Common.Security
 {

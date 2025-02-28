@@ -1,10 +1,4 @@
-﻿//------------------------------------------------------------------------------
-// <author>Zhuo YuHan</author>
-// <email>1719700768@qq.com</email>
-// <date>2024/12/12 16:25:22</date>
-//------------------------------------------------------------------------------
-
-using System;
+﻿using System;
 using System.Buffers;
 using System.Diagnostics;
 using System.IO;
@@ -100,18 +94,6 @@ namespace Zyh.Common.Security
                     break;
             }
             return hashValue;
-        }
-
-        public static bool CompareHash(string Hash1, string Hash2)
-        {
-            if (Hash1 == Hash2)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         private static string SHA512File(string fileName)

@@ -1,10 +1,4 @@
-﻿//------------------------------------------------------------------------------
-// <author>Zhuo YuHan</author>
-// <email>1719700768@qq.com</email>
-// <date>2024/10/12 14:50:53</date>
-//------------------------------------------------------------------------------
-
-using SkiaSharp;
+﻿using SkiaSharp;
 using Svg.Skia;
 using System;
 using System.IO;
@@ -23,7 +17,7 @@ namespace Zyh.Common.Drawing
         /// <param name="newWidth">新宽</param>
         /// <param name="newHeight">新高</param>
         /// <returns></returns>
-        public static byte[] CompressPicByImage(byte[] byteImageIn, int newWidth = 200, int newHeight = 200)
+        public static byte[]? CompressPicByImage(byte[] byteImageIn, int newWidth = 200, int newHeight = 200)
         {
             if (byteImageIn == null)
             {
@@ -40,11 +34,9 @@ namespace Zyh.Common.Drawing
                     if (resized != null)
                     {
                         using var image = SKImage.FromBitmap(resized);
-                        using (var outMS = new MemoryStream())
-                        {
-                            image.Encode(SKEncodedImageFormat.Png, quality).SaveTo(outMS);
-                            return outMS.ToArray();
-                        }
+                        using var outMS = new MemoryStream();
+                        image.Encode(SKEncodedImageFormat.Png, quality).SaveTo(outMS);
+                        return outMS.ToArray();
                     }
                 }
             }
@@ -59,7 +51,7 @@ namespace Zyh.Common.Drawing
         /// <param name="newWidth">新宽</param>
         /// <param name="newHeight">新高</param>
         /// <returns></returns>
-        public static byte[] CompressGifByImage(byte[] byteImageIn, int newWidth = 200, int newHeight = 200)
+        public static byte[]? CompressGifByImage(byte[] byteImageIn, int newWidth = 200, int newHeight = 200)
         {
             SixLabors.ImageSharp.Image gif = SixLabors.ImageSharp.Image.Load(byteImageIn);
             var newGif = gif.Clone(x => x.Resize(newWidth, newHeight));
@@ -78,7 +70,7 @@ namespace Zyh.Common.Drawing
         /// <param name="newWidth">新宽</param>
         /// <param name="newHeight">新高</param>
         /// <returns></returns>
-        public static byte[] CompressPicFromUrl(string suffix, string url, string certificateFileName, string certificatePwd, int newWidth = 200, int newHeight = 200)
+        public static byte[]? CompressPicFromUrl(string suffix, string url, string certificateFileName, string certificatePwd, int newWidth = 200, int newHeight = 200)
         {
             //if (url.Substring(0, 5) == "https")
             //{
@@ -107,28 +99,6 @@ namespace Zyh.Common.Drawing
         }
 
         /// <summary>
-        /// 获取svg图像的宽高
-        /// </summary>
-        /// <param name="node">svg的XML节点数据</param>
-        /// <param name="attrName">svg的XML中参数名称</param>
-        /// <returns></returns>
-        private static string GetAttribute(XmlNode node, string attrName)
-        {
-            var atts = node.Attributes;
-            for (int i = 0; i < atts.Count; i++)
-            {
-                if (atts[i].Name.Equals(attrName, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return atts[i].Value;
-                }
-            }
-            return string.Empty;
-            //XmlAttribute tmp = node.OwnerDocument.CreateAttribute(attrName);
-            //tmp.Value = value;
-            //node.Attributes.Append(tmp);
-        }
-
-        /// <summary>
         /// 对svg图片缩放为png图片
         /// </summary>
         /// <param name="url">图片url</param>
@@ -137,7 +107,7 @@ namespace Zyh.Common.Drawing
         /// <param name="newWidth">新宽</param>
         /// <param name="newHeight">新高</param>
         /// <returns></returns>
-        public static byte[] CompressSvgFromUrl(string url, string certificateFileName, string certificatePwd, int newWidth = 200, int newHeight = 200)
+        public static byte[]? CompressSvgFromUrl(string url, string certificateFileName, string certificatePwd, int newWidth = 200, int newHeight = 200)
         {
             //if (url.Substring(0, 5) == "https")
             //{
@@ -165,7 +135,7 @@ namespace Zyh.Common.Drawing
         /// <param name="newWidth">新宽</param>
         /// <param name="newHeight">新高</param>
         /// <returns></returns>
-        public static byte[] SaveSvgToPng(byte[] svgByte, int newWidth = 200, int newHeight = 200)
+        public static byte[]? SaveSvgToPng(byte[] svgByte, int newWidth = 200, int newHeight = 200)
         {
             using (SKSvg svg = new SKSvg())
             {
@@ -174,25 +144,32 @@ namespace Zyh.Common.Drawing
                 using (MemoryStream ms = new MemoryStream())
                 {
                     // 新方法
-                    SKRect svgSize = svg.Picture.CullRect;
-                    float svgMax = Math.Max(svgSize.Width, svgSize.Height);
-                    var bitmap = new SKBitmap((int)(svgSize.Width), (int)(svgSize.Height));
-                    var canvas = new SKCanvas(bitmap);
-                    // 设置抗锯齿为false
-                    canvas.DrawPicture(svg.Picture, new SKPaint() { IsAntialias = false });
-                    SKImage.FromBitmap(bitmap).Encode(SKEncodedImageFormat.Png, 100).SaveTo(ms);
-
-                    ms.Seek(0, SeekOrigin.Begin);
-                    byte[] bytes = new byte[ms.Length];
-                    ms.Read(bytes, 0, bytes.Length);
-                    ms.Dispose();
-                    if (newWidth != 0 && newHeight != 0)
+                    if (svg.Picture != null)
                     {
-                        return CompressPicByImage(bytes, newWidth, newHeight);
+                        SKRect svgSize = svg.Picture.CullRect;
+                        float svgMax = Math.Max(svgSize.Width, svgSize.Height);
+                        var bitmap = new SKBitmap((int)(svgSize.Width), (int)(svgSize.Height));
+                        var canvas = new SKCanvas(bitmap);
+                        // 设置抗锯齿为false
+                        canvas.DrawPicture(svg.Picture, new SKPaint() { IsAntialias = false });
+                        SKImage.FromBitmap(bitmap).Encode(SKEncodedImageFormat.Png, 100).SaveTo(ms);
+
+                        ms.Seek(0, SeekOrigin.Begin);
+                        byte[] bytes = new byte[ms.Length];
+                        ms.Read(bytes, 0, bytes.Length);
+                        ms.Dispose();
+                        if (newWidth != 0 && newHeight != 0)
+                        {
+                            return CompressPicByImage(bytes, newWidth, newHeight);
+                        }
+                        else
+                        {
+                            return bytes;
+                        }
                     }
                     else
                     {
-                        return bytes;
+                        return null;
                     }
                 }
             }

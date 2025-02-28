@@ -1,11 +1,4 @@
-﻿//------------------------------------------------------------------------------
-// <author>Zhuo YuHan</author>
-// <email>1719700768@qq.com</email>
-// <date>2024/12/12 16:59:19</date>
-//------------------------------------------------------------------------------
-
-
-namespace Zyh.Common.Security
+﻿namespace Zyh.Common.Security
 {
     using Org.BouncyCastle.Crypto.Parameters;
     using Org.BouncyCastle.Crypto;

@@ -1,10 +1,4 @@
-﻿//------------------------------------------------------------------------------
-// <author>Zhuo YuHan</author>
-// <email>1719700768@qq.com</email>
-// <date>2024/12/20 9:41:40</date>
-//------------------------------------------------------------------------------
-
-using SkiaSharp;
+﻿using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,9 +32,9 @@ namespace Zyh.Common.Drawing
         /// <summary>
         /// 保存图片
         /// </summary>
-        /// <param name="absolutePath">图片绝对路径</param>
-        /// <param name="fotmat">图片保存格式</param>
-        /// <param name="qulity">图片质量</param>
+        /// <param name="absolutePath"></param>
+        /// <param name="fotmat"></param>
+        /// <param name="qulity"></param>
         public void SaveToImage(string absolutePath, SKEncodedImageFormat fotmat = SKEncodedImageFormat.Png, int qulity = 100)
         {
             var path = Path.GetDirectoryName(absolutePath);
@@ -58,8 +52,10 @@ namespace Zyh.Common.Drawing
         }
 
         /// <summary>
-        /// 保存图片
+        /// 获取图片数据
         /// </summary>
+        /// <param name="fotmat"></param>
+        /// <param name="qulity"></param>
         /// <returns></returns>
         public byte[] SaveToByte(SKEncodedImageFormat fotmat = SKEncodedImageFormat.Png, int qulity = 100)
         {
@@ -79,7 +75,10 @@ namespace Zyh.Common.Drawing
         /// </summary>
         /// <param name="posList">经过分段函数得到的贝塞尔点集合</param>
         /// <param name="strokeWidth">宽度</param>
-        /// <param name="isStright">是否只有两点一线</param>
+        /// <param name="way">是否只有两点一线</param>
+        /// <param name="arrow"></param>
+        /// <param name="assistColor"></param>
+        /// <param name="arrowNum"></param>
         public void DrawRoad(List<BezierPosition> posList, float strokeWidth, BezierType way, bool arrow = true, string assistColor = "#00FF00", int arrowNum = 2)
         {
             skCanvas.Save();

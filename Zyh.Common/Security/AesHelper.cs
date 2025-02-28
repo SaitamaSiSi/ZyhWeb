@@ -1,10 +1,4 @@
-﻿//------------------------------------------------------------------------------
-// <author>Zhuo YuHan</author>
-// <email>1719700768@qq.com</email>
-// <date>2024/12/12 16:21:09</date>
-//------------------------------------------------------------------------------
-
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 
 namespace Zyh.Common.Security
 {

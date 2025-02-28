@@ -1,19 +1,9 @@
-﻿//------------------------------------------------------------------------------
-// <copyright file="Plugin.cs" company="Zyh">
-//    Copyright (c) 2024, Zyh All rights reserved.
-// </copyright>
-// <author>Zhuo YuHan</author>
-// <email>1719700768@qq.com</email>
-// <date>2024/09/19 10:33:53</date>
-//------------------------------------------------------------------------------
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Zyh.Common.Reflection;
 
 namespace Zyh.Plugins.Manager
 {
@@ -77,12 +67,11 @@ namespace Zyh.Plugins.Manager
                         Assembly assembly = LoadPlugin(path);
                         Name = assembly.GetName().Name;
                         Version = assembly.GetName().Version;
-                        CompileTime = VersionUtils.GetAssemblyCompileTime(assembly);
                         _workerPlugins = CreatePlugins(assembly).ToList();
                         foreach (var plugin in WorkerPlugins)
                         {
                             var iniFlag = plugin.Init();
-                            Trace.WriteLine(string.Format("Create Success", plugin.Name, Name, Version, CompileTime, iniFlag, path));
+                            Trace.WriteLine(string.Format("Create Success", plugin.Name, Name, Version, iniFlag, path));
                             isSucess = isSucess & iniFlag;
                         }
                         if (_workerPlugins.Count == 0)

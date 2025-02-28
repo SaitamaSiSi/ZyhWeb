@@ -1,14 +1,6 @@
-﻿//------------------------------------------------------------------------------
-// <author>Zhuo YuHan</author>
-// <email>1719700768@qq.com</email>
-// <date>2024/12/19 17:07:21</date>
-//------------------------------------------------------------------------------
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.Linq;
 using System.Numerics;
 using Zyh.Common.Dto;
 
@@ -33,14 +25,16 @@ namespace Zyh.Common.Drawing
             var bezierLength = GetBezierDistance(bPath.Source, bPath.Vertices, bPath.Target);
             var arrowNum = (int)(8 - bezierLength / 40);
             bPath.SplitNum = (arrowNum >= 0 && arrowNum <= 8) ? arrowNum + 2 : 2;
-            // bPath = OptimizeToMoreBezier(bPath, 100 + bPath.SplitNum.Value);
+            // 分为10段+箭头段数
             bPath = OptimizeToMoreBezier(bPath, 10 + bPath.SplitNum.Value);
 
             if (bPath.Shape == BezierType.曲线)
             {
                 // 每三个点是一段贝塞尔曲线，控制点的颜色是该路段颜色
                 // 根据colorNodes集合给每段赋颜色，总长为totalDistance，不足使用默认值，超过则丢弃。
-                // bPath.Vertices = SetBezierColor(bPath.Vertices, colorNodes, totalDistance);
+                List<RealPosition> colorNodes = new List<RealPosition>();
+                int totalDistance = 0;
+                bPath.Vertices = SetBezierColor(bPath.Vertices, colorNodes, totalDistance);
             }
 
             return SKDrawPic(bPath);
@@ -192,9 +186,8 @@ namespace Zyh.Common.Drawing
                     {
                         if (BezierPositions[j].IsControl)
                         {
-                            // 根据状态返回对应颜色
-                            // BezierPositions[j].Status = XXX.GetRetColor(colorNodes[i].Status);
-                            BezierPositions[j].Status = "#00FF00";
+                            // 根据状态对应颜色
+                            BezierPositions[j].Status = colorNodes[i].Status == 0 ? "#00FF00" : "#0000FF";
                             pos++;
                         }
                         if (pos == percentage)
@@ -205,9 +198,8 @@ namespace Zyh.Common.Drawing
                     }
                 }
 
-                // 补全箭头颜色, 根据状态返回对应颜色
-                // var lastColor = ColorsUtils.GetRetColor(colorNodes[^1].Status);
-                var lastColor = "#00FF00";
+                // 补全箭头颜色
+                var lastColor = colorNodes[^1].Status == 0 ? "#00FF00" : "#0000FF";
                 for (int i = index; i < BezierPositions.Count; i++)
                 {
                     if (BezierPositions[i].IsControl)

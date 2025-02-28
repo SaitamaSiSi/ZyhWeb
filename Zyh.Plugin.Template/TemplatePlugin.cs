@@ -27,8 +27,6 @@ namespace Zyh.Plugin.Template
 
         public bool Init()
         {
-            //var iniPath = Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), (_pluginName + ".ini"));
-
             var doPlayWorker = new DoPlayWorker();
             _workerManager.Register(doPlayWorker.Name, doPlayWorker);
 

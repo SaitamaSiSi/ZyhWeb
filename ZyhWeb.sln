@@ -23,27 +23,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Plugin.Template", "Zyh.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Web.Api", "Zyh.Web.Api\Zyh.Web.Api.csproj", "{16630992-C724-4674-9BA3-761C406012A1}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ZyhWebUI2", "ZyhWebUI2\", "{25453AF7-1EB7-4D9C-833F-F3A0E7B2A579}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_59141"
-		Debug.AspNetCompiler.PhysicalPath = "ZyhWebUI2\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_59141\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_59141"
-		Release.AspNetCompiler.PhysicalPath = "ZyhWebUI2\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_59141\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "59141"
-		SlnRelativePath = "ZyhWebUI2\"
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Common.Data", "Zyh.Common.Data\Zyh.Common.Data.csproj", "{7BBB2AC6-6EB4-42AF-937F-26FF52D1DF58}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Common.Provider", "Zyh.Common.Provider\Zyh.Common.Provider.csproj", "{E755B05D-8BEB-4F36-BB6D-15F23DDFF15C}"
@@ -52,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Common.Service", "Zyh.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Common.Entity", "Zyh.Common.Entity\Zyh.Common.Entity.csproj", "{2DA0EF34-ACA5-43A4-B413-1C16F59CCC00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zyh.Common.AI", "Zyh.Common.AI\Zyh.Common.AI.csproj", "{D7DC33DA-FD64-4C4F-BE3D-5409C5E7F850}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Common.AI", "Zyh.Common.AI\Zyh.Common.AI.csproj", "{D7DC33DA-FD64-4C4F-BE3D-5409C5E7F850}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,9 +58,6 @@ Global
 		{16630992-C724-4674-9BA3-761C406012A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16630992-C724-4674-9BA3-761C406012A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16630992-C724-4674-9BA3-761C406012A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{25453AF7-1EB7-4D9C-833F-F3A0E7B2A579}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{25453AF7-1EB7-4D9C-833F-F3A0E7B2A579}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{25453AF7-1EB7-4D9C-833F-F3A0E7B2A579}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{7BBB2AC6-6EB4-42AF-937F-26FF52D1DF58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7BBB2AC6-6EB4-42AF-937F-26FF52D1DF58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BBB2AC6-6EB4-42AF-937F-26FF52D1DF58}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -112,7 +88,6 @@ Global
 		{46F3C307-04FA-4A0A-B734-946BE32E8154} = {B2A182C3-1F9D-4071-BD14-CC21F6C0F642}
 		{E1AFCE3B-0A9C-4B1B-B71B-CA2EB3471587} = {806E99A6-8547-4D94-B056-BC274BF658E5}
 		{16630992-C724-4674-9BA3-761C406012A1} = {57FE953D-0B8D-4E32-8241-915C191CB984}
-		{25453AF7-1EB7-4D9C-833F-F3A0E7B2A579} = {FC25F73D-7211-4715-A54F-3FF639128F92}
 		{7BBB2AC6-6EB4-42AF-937F-26FF52D1DF58} = {B2A182C3-1F9D-4071-BD14-CC21F6C0F642}
 		{E755B05D-8BEB-4F36-BB6D-15F23DDFF15C} = {B2A182C3-1F9D-4071-BD14-CC21F6C0F642}
 		{E6C50EA5-CAD9-4BCB-B1DB-D7AD6944C8EC} = {B2A182C3-1F9D-4071-BD14-CC21F6C0F642}

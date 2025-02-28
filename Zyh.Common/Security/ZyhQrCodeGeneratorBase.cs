@@ -1,10 +1,4 @@
-﻿//------------------------------------------------------------------------------
-// <author>Zhuo YuHan</author>
-// <email>1719700768@qq.com</email>
-// <date>2024/10/14 10:01:47</date>
-//------------------------------------------------------------------------------
-
-using OtpNet;
+﻿using OtpNet;
 using QRCoder;
 using static QRCoder.SvgQRCode;
 
