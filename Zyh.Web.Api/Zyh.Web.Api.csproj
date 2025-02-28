@@ -12,6 +12,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Zyh.Common.AI\Zyh.Common.AI.csproj" />
 		<ProjectReference Include="..\Zyh.Common.Data\Zyh.Common.Data.csproj" />
 		<ProjectReference Include="..\Zyh.Common.Entity\Zyh.Common.Entity.csproj" />
 		<ProjectReference Include="..\Zyh.Common.Service\Zyh.Common.Service.csproj" />
