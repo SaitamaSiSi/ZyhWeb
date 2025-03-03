@@ -5,8 +5,8 @@ using SixLabors.ImageSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 using SixLabors.ImageSharp.Processing;
+using System.Threading.Tasks;
 
 namespace Zyh.Common.AI
 {
@@ -17,54 +17,31 @@ namespace Zyh.Common.AI
         public float Confidence { get; set; }
     }
 
+    /// <summary>
+    /// 目标识别模型助手
+    /// </summary>
     public class OnnxObjectDetector : BaseAI
     {
-        private readonly InferenceSession _session;
-        private readonly string[] _labels;
-        private readonly string _inputName;
-        private readonly int _inputSize;  // 模型输入尺寸（如640）
-        private readonly float _confThreshold; // 置信度阈值
-        private readonly float _iouThreshold;  // IoU阈值（用于NMS）
-
-        public string[] Labels
-        {
-            get
-            {
-                return _labels;
-            }
-        }
-
-        public OnnxObjectDetector(
-            string modelPath,
-            string labelPath,
-            int inputSize = 1280,
-            float confThreshold = 0.5f,
-            float iouThreshold = 0.5f)
-        {
-            _session = new InferenceSession(modelPath);
-            _inputName = _session.InputMetadata.Keys.First();
-            _labels = File.ReadAllLines(labelPath);
-            _inputSize = inputSize;
-            _confThreshold = confThreshold;
-            _iouThreshold = iouThreshold;
-        }
-
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="modelPath">模型路径</param>
+        /// <param name="labels">分类标签</param>
+        /// <param name="confThreshold">置信度</param>
+        /// <param name="iouThreshold">最大重叠值</param>
         public OnnxObjectDetector(
             string modelPath,
             string[] labels,
-            int inputSize = 1280,
             float confThreshold = 0.5f,
-            float iouThreshold = 0.5f)
+            float iouThreshold = 0.5f) : base(modelPath, labels, confThreshold, iouThreshold)
         {
-            _session = new InferenceSession(modelPath);
-            _inputName = _session.InputMetadata.Keys.First();
-            _labels = labels;
-            _inputSize = inputSize;
-            _confThreshold = confThreshold;
-            _iouThreshold = iouThreshold;
         }
 
-        // 检测并返回结果
+        /// <summary>
+        /// 检测并返回结果
+        /// </summary>
+        /// <param name="imagePath">图像地址</param>
+        /// <returns>识别结果集</returns>
         public List<DetectionResult> Detect(string imagePath)
         {
             // 1. 预处理图像
@@ -81,21 +58,25 @@ namespace Zyh.Common.AI
             };
             using var outputs = _session.Run(inputs);
 
-            // 4. 解析输出（以YOLOv5输出为例）
+            // 4. 解析输出（以YOLO输出为例）
             var outputTensor = outputs.First().AsTensor<float>();
-            var predictions = ParseOutput(outputTensor, scale, pad);
+            var predictions = ParseOutput(outputTensor, scale, pad, (image.Width, image.Height));
 
             // 5. 应用非极大值抑制（NMS）
             return ApplyNMS(predictions);
         }
 
-        // 图像预处理（保持长宽比缩放并填充）
+        /// <summary>
+        /// 图像预处理（保持长宽比缩放并填充）
+        /// </summary>
+        /// <param name="image">原图</param>
+        /// <returns>缩放图像、缩放倍数、扩充宽高</returns>
         private (Image<Rgb24>, float, (int, int)) PreprocessImage(Image<Rgb24> image)
         {
             // 计算缩放比例
             float scale = Math.Min(
-                (float)_inputSize / image.Width,
-                (float)_inputSize / image.Height
+                (float)_inputWidth / image.Width,
+                (float)_inputHeight / image.Height
             );
 
             // 缩放图像
@@ -104,17 +85,21 @@ namespace Zyh.Common.AI
             var resizedImage = image.Clone(x => x.Resize(newWidth, newHeight));
 
             // 填充到输入尺寸
-            var padX = _inputSize - newWidth;
-            var padY = _inputSize - newHeight;
-            resizedImage.Mutate(x => x.Pad(_inputSize, _inputSize, Color.Black));
+            var padX = _inputWidth - newWidth;
+            var padY = _inputHeight - newHeight;
+            resizedImage.Mutate(x => x.Pad(_inputWidth, _inputHeight, Color.Black));
 
             return (resizedImage, scale, (padX, padY));
         }
 
-        // 将图像转换为模型输入张量
+        /// <summary>
+        /// 将图像转换为模型输入张量
+        /// </summary>
+        /// <param name="image">输入图像</param>
+        /// <returns>输入张量</returns>
         private DenseTensor<float> ImageToTensor(Image<Rgb24> image)
         {
-            var tensor = new DenseTensor<float>(new[] { 1, 3, _inputSize, _inputSize });
+            var tensor = new DenseTensor<float>(new[] { 1, 3, _inputWidth, _inputHeight });
             image.ProcessPixelRows(accessor =>
             {
                 for (int y = 0; y < accessor.Height; y++)
@@ -132,51 +117,76 @@ namespace Zyh.Common.AI
             return tensor;
         }
 
-        // 解析模型输出（YOLO格式）
-        private List<DetectionResult> ParseOutput(Tensor<float> output, float scale, (int padX, int padY) pad)
+        /// <summary>
+        /// 解析模型输出（YOLO格式）[x,y,w,h,s,c]
+        /// </summary>
+        /// <param name="output">输出结果张量</param>
+        /// <param name="scale">缩放倍数</param>
+        /// <param name="pad">扩充宽高</param>
+        /// <param name="source">原图宽高</param>
+        /// <returns>预测识别结果</returns>
+        private List<DetectionResult> ParseOutput(Tensor<float> output, float scale, (int padX, int padY) pad, (int w, int h) source)
         {
             var results = new List<DetectionResult>();
-            //var outputArray = output.ToArray();
-            //int numClasses = _labels.Length; // 动态获取类别数
-            //int step = 5 + numClasses;      // 每个检测框的总字段数
 
-            //for (int i = 0; i < output.Dimensions[1]; i++)
-            //{
-            //    // 获取置信度
-            //    float conf = outputArray[i * step + 4];
-            //    if (conf < _confThreshold) continue;
+            // for each batch
+            Parallel.For(0, output.Dimensions[0], i =>
+            {
+                //divide total length by the elements per prediction
+                Parallel.For(0, (int)(output.Length / output.Dimensions[1]), j =>
+                {
+                    var confidence = output[i, 4, j];
 
-            //    // 解析类别概率
-            //    var classes = new float[numClasses];
-            //    Array.Copy(outputArray, i * step + 5, classes, 0, numClasses);
-            //    int classId = Array.IndexOf(classes, classes.Max());
-            //    float classScore = classes[classId];
-            //    float totalScore = conf * classScore;
-            //    if (totalScore < _confThreshold) continue;
+                    //skip low confidence values
+                    if (confidence < _confThreshold)
+                        return;
 
-            //    // 解析边界框坐标（xywh格式）
-            //    float cx = outputArray[i * step + 0];
-            //    float cy = outputArray[i * step + 1];
-            //    float w = outputArray[i * step + 2];
-            //    float h = outputArray[i * step + 3];
+                    float xMin = (output[i, 0, j] - output[i, 2, j] / 2 - pad.padX / 2) / scale; // unpad bbox tlx to original
+                    float yMin = (output[i, 1, j] - output[i, 3, j] / 2 - pad.padY / 2) / scale; // unpad bbox tly to original
+                    float xMax = (output[i, 0, j] + output[i, 2, j] / 2 - pad.padX / 2) / scale; // unpad bbox brx to original
+                    float yMax = (output[i, 1, j] + output[i, 3, j] / 2 - pad.padY / 2) / scale; // unpad bbox bry to original
 
-            //    // 转换到原始图像坐标（保持原有逻辑）
-            //    int x1 = (int)((cx - w / 2 - pad.padX / 2) / scale);
-            //    int y1 = (int)((cy - h / 2 - pad.padY / 2) / scale);
-            //    int x2 = (int)((cx + w / 2 - pad.padX / 2) / scale);
-            //    int y2 = (int)((cy + h / 2 - pad.padY / 2) / scale);
+                    xMin = Clamp(xMin, 0, source.w - 0); // clip bbox tlx to boundaries
+                    yMin = Clamp(yMin, 0, source.h - 0); // clip bbox tly to boundaries
+                    xMax = Clamp(xMax, 0, source.w - 1); // clip bbox brx to boundaries
+                    yMax = Clamp(yMax, 0, source.h - 1); // clip bbox bry to boundaries
 
-            //    results.Add(new DetectionResult
-            //    {
-            //        Bounds = new Rectangle(x1, y1, x2 - x1, y2 - y1),
-            //        ClassId = classId,
-            //        Confidence = totalScore
-            //    });
-            //}
+                    Parallel.For(0, _modelOutputDimensions - 4, delegate (int l)
+                    {
+                        float classScore = output[new int[3] { i, 4 + l, j }];
+                        if (!(classScore < _confThreshold))
+                        {
+                            results.Add(new DetectionResult()
+                            {
+                                ClassId = l,
+                                Confidence = confidence,
+                                Bounds = new Rectangle((int)xMin, (int)yMin, (int)(xMax - xMin), (int)(yMax - yMin))
+                            });
+                        }
+                    });
+                });
+            });
+
             return results;
         }
 
-        // 非极大值抑制（NMS）
+        /// <summary>
+        /// 放置识别结果越界
+        /// </summary>
+        /// <param name="value">当前值</param>
+        /// <param name="min">最小值</param>
+        /// <param name="max">最大值</param>
+        /// <returns></returns>
+        private float Clamp(float value, float min, float max)
+        {
+            return (value < min) ? min : (value > max) ? max : value;
+        }
+
+        /// <summary>
+        /// 非极大值抑制（NMS）
+        /// </summary>
+        /// <param name="predictions">预测结果集</param>
+        /// <returns>去重后结果集</returns>
         private List<DetectionResult> ApplyNMS(List<DetectionResult> predictions)
         {
             var sorted = predictions.OrderByDescending(p => p.Confidence).ToList();
@@ -197,7 +207,12 @@ namespace Zyh.Common.AI
             return results;
         }
 
-        // 计算IoU（交并比）
+        /// <summary>
+        /// 计算IoU（交并比）
+        /// </summary>
+        /// <param name="a">框A</param>
+        /// <param name="b">框B</param>
+        /// <returns>两框IoU</returns>
         private float CalculateIoU(Rectangle a, Rectangle b)
         {
             int x1 = Math.Max(a.Left, b.Left);
@@ -211,6 +226,79 @@ namespace Zyh.Common.AI
             int areaA = a.Width * a.Height;
             int areaB = b.Width * b.Height;
             return (float)intersection / (areaA + areaB - intersection);
+        }
+
+        /// <summary>
+        /// 绘制预测框
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="color"></param>
+        /// <param name="thickness"></param>
+        public void DrawRectangle(Image<Rgba32> image, int x, int y, int width, int height, Rgba32 color, int thickness = 3)
+        {
+            // 检查边界
+            x = Math.Max(0, x);
+            y = Math.Max(0, y);
+            width = Math.Min(width, image.Width - x);
+            height = Math.Min(height, image.Height - y);
+
+            // 绘制顶部和底部线条
+            DrawHorizontalLine(image, x, y, width, color, thickness);
+            DrawHorizontalLine(image, x, y + height - 1, width, color, thickness);
+
+            // 绘制左侧和右侧线条
+            DrawVerticalLine(image, x, y, height, color, thickness);
+            DrawVerticalLine(image, x + width - 1, y, height, color, thickness);
+        }
+
+        /// <summary>
+        /// 绘制水平线
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="length"></param>
+        /// <param name="color"></param>
+        /// <param name="thickness"></param>
+        private void DrawHorizontalLine(Image<Rgba32> image, int x, int y, int length, Rgba32 color, int thickness)
+        {
+            for (int i = y - thickness; i <= y + thickness; i++)
+            {
+                for (int j = x; j < x + length; j++)
+                {
+                    if (i >= 0 && i < image.Height && j >= 0 && j < image.Width)
+                    {
+                        image[j, i] = color;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 绘制垂直线
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="length"></param>
+        /// <param name="color"></param>
+        /// <param name="thickness"></param>
+        private void DrawVerticalLine(Image<Rgba32> image, int x, int y, int length, Rgba32 color, int thickness)
+        {
+            for (int i = y; i < y + length; i++)
+            {
+                for (int j = x - thickness; j <= x + thickness; j++)
+                {
+                    if (i >= 0 && i < image.Height && j >= 0 && j < image.Width)
+                    {
+                        image[j, i] = color;
+                    }
+                }
+            }
         }
     }
 }

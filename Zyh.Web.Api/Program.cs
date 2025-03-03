@@ -1,9 +1,10 @@
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using System.Data.Common;
 using Zyh.Common.AI;
 using Zyh.Common.Security;
 using Zyh.Plugins.Manager;
 using Zyh.Web.Api.Worker;
-using static SkiaSharp.HarfBuzz.SKShaper;
 
 namespace Zyh.Web.Api
 {
@@ -24,23 +25,35 @@ namespace Zyh.Web.Api
         {
             #region 测试分类识别
 
-            string classifyOnnx = "F:\\TestProgram\\Test\\AIStudio\\已上传到群中的模型文件\\分类\\zyh图像分类_飞桨ResNet50_0.0.2\\231013_Auto0.3_只有交通标牌_缩放左上角\\model_new.onnx";
-            var classifier = new OnnxImageClassifier(classifyOnnx, new string[] { "r", "y", "g", "o", "n" });
-            var dict = classifier.ClassifyImage("F:\\TestProgram\\Test\\AIStudio\\分类模型暂存\\十二生肖分类数据模型\\signs\\test\\r.jpg");
-            Console.WriteLine($"分类结果: {dict.FirstOrDefault().Key}-{dict.FirstOrDefault().Value}");
+            //string classifyOnnx = "F:\\TestProgram\\Test\\AIStudio\\model.onnx";
+            //var classifier = new OnnxImageClassifier(classifyOnnx, new string[] { "r", "y", "g", "o", "n" });
+            //var dict = classifier.ClassifyImage("F:\\TestProgram\\Test\\AIStudio\\test\\r.jpg");
+            //Console.WriteLine($"分类结果: {dict.FirstOrDefault().Key}-{dict.FirstOrDefault().Value}");
 
             #endregion
 
             #region 测试目标识别
 
-            //string detectOnnx = "F:\\TestProgram\\Test\\AIStudio\\目标模型暂存\\train_720_1280混合训练_增加全局注意力(GAM)机制_替换c2f_增加自定义数据\\weights\\best_new.onnx";
+            //string detectOnnx = "F:\\TestProgram\\Test\\AIStudio\\best.onnx";
             //var detector = new OnnxObjectDetector(detectOnnx, new string[] { "l" });
-            //var results = detector.Detect("F:\\TestProgram\\Test\\手机拍摄\\mmexport1688016801491.jpg");
+            //var results = detector.Detect("F:\\TestProgram\\Test\\input.jpg");
             //foreach (var result in results)
             //{
             //    Console.WriteLine($"类别: {detector.Labels[result.ClassId]}, " +
             //                     $"置信度: {result.Confidence:F2}, " +
             //                     $"位置: {result.Bounds}");
+            //}
+
+            //using (var image = Image.Load<Rgba32>("F:\\TestProgram\\Test\\input.jpg"))
+            //{
+            //    foreach (var result in results)
+            //    {
+            //        // 绘制矩形框
+            //        detector.DrawRectangle(image, result.Bounds.X, result.Bounds.Y, result.Bounds.Width, result.Bounds.Height, Rgba32.ParseHex("#FF0000"), 3);
+            //    }
+
+            //    // 保存结果
+            //    image.Save("F:\\TestProgram\\Test\\output.jpg");
             //}
 
             #endregion

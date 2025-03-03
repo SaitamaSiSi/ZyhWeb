@@ -2,7 +2,6 @@
 using Microsoft.ML.OnnxRuntime;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
@@ -10,45 +9,33 @@ using System.Linq;
 
 namespace Zyh.Common.AI
 {
+    /// <summary>
+    /// 分类识别模型助手
+    /// </summary>
     public class OnnxImageClassifier : BaseAI
     {
-        private readonly InferenceSession _session;
-        private readonly string[] _labels;
-
-        public OnnxImageClassifier(string modelPath, string labelPath)
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="modelPath">模型路径</param>
+        /// <param name="labels">分类标签</param>
+        /// <param name="enableCuda">是否开启Cuda加速</param>
+        public OnnxImageClassifier(
+            string modelPath,
+            string[] labels,
+            bool enableCuda = false) : base(modelPath, labels, 0, 0, enableCuda)
         {
-            // 初始化ONNX推理会话
-            _session = new InferenceSession(modelPath);
-            // 加载标签
-            _labels = File.ReadAllLines(labelPath);
         }
 
-        public OnnxImageClassifier(string modelPath, string[] labels)
-        {
-            // 初始化ONNX推理会话
-            _session = new InferenceSession(modelPath);
-            // 加载标签
-            _labels = labels;
-        }
-
-        public OnnxImageClassifier(string modelPath, bool enableCuda = false)
-        {
-            var options = new SessionOptions();
-            options.AppendExecutionProvider_CUDA(); // 需要安装 CUDA 依赖
-            // 初始化ONNX推理会话
-            _session = enableCuda ? new InferenceSession(modelPath, options) : new InferenceSession(modelPath);
-            // 加载标签
-            _labels = new string[0];
-        }
-
+        /// <summary>
+        /// 图像分类
+        /// </summary>
+        /// <param name="imagePath">图像路径</param>
+        /// <returns>分类结果</returns>
         public Dictionary<string, float> ClassifyImage(string imagePath)
         {
             // 预处理图像
             using var image = Image.Load<Rgb24>(imagePath);
-            string inputName = _session.InputMetadata.Keys.First();
-            int height = _session.InputMetadata[inputName].Dimensions[2];
-            int width = _session.InputMetadata[inputName].Dimensions[3];
-            // _session.ModelMetadata.CustomMetadataMap;
             image.Mutate(x => x.Resize(new ResizeOptions
             {
                 Size = new Size(224, 224),
@@ -78,7 +65,7 @@ namespace Zyh.Common.AI
             // 创建输入Tensor
             var inputTensor = new DenseTensor<float>(input, new[] { 1, 3, 224, 224 });
             var inputs = new List<NamedOnnxValue>{
-                NamedOnnxValue.CreateFromTensor(inputName, inputTensor) // "input"需替换为模型实际输入名称
+                NamedOnnxValue.CreateFromTensor(_inputName, inputTensor) // "input"需替换为模型实际输入名称
             };
 
             // 运行推理
