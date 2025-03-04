@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
+using System.Threading.RateLimiting;
 using Zyh.Common.Filter.Web;
 using Zyh.Web.Api.Models;
 using Zyh.Web.Api.Worker;
@@ -91,6 +93,69 @@ namespace Zyh.Web.Api
                 options.Cookie.Name = "zyh-auth";
                 options.SlidingExpiration = true;
             });
+
+            services.AddRateLimiter(options =>
+            {
+                #region 全局限流
+
+                //options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
+                //    RateLimitPartition.GetFixedWindowLimiter("global", _ => new()
+                //    {
+                //        PermitLimit = 600,    // 时间窗口内允许的最大请求数
+                //        Window = TimeSpan.FromMinutes(1) // 时间窗口长度
+                //    }));
+
+                #endregion
+
+                #region 终结点限流
+                // 对需要的接口加上[EnableRateLimiting("fixePolicy")]标记，每个接口单独统计次数
+
+                // 固定窗口，在固定时间窗口（如1分钟）内统计请求数，超过阈值则拒绝后续请求
+                options.AddPolicy("fixePolicy", httpContext =>
+                    RateLimitPartition.GetFixedWindowLimiter(
+                        httpContext.Request.Path, // 根据请求路径来限流
+                        _ => new()
+                        {
+                            PermitLimit = 3,
+                            Window = TimeSpan.FromSeconds(60)
+                        }));
+
+                // 滑动窗口，将时间窗口划分为多个子段（如1分钟分为6个10秒段），窗口滑动时合并过期段的请求数
+                options.AddPolicy("slidingPolicy",
+                    context => RateLimitPartition.GetSlidingWindowLimiter(
+                        partitionKey: context.Connection.RemoteIpAddress?.ToString(), // 根据请求IP来限流
+                        factory: _ => new SlidingWindowRateLimiterOptions
+                        {
+                            PermitLimit = 10,                   // 每分钟最多3次请求
+                            Window = TimeSpan.FromMinutes(1),  // 窗口总时长1分钟
+                            SegmentsPerWindow = 6,             // 将窗口分为6段（每段10秒）
+                            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                            QueueLimit = 0                     // 不排队，直接拒绝
+                        }));
+
+                // 令牌桶算法，以固定速率生成令牌，请求需获取令牌才能处理，桶满时丢弃新令牌
+                options.AddTokenBucketLimiter("tokenPolicy", opt =>
+                {
+                    opt.TokenLimit = 100;
+                    opt.ReplenishmentPeriod = TimeSpan.FromSeconds(10);
+                    opt.TokensPerPeriod = 20; // 每10秒补充20个令牌
+                });
+
+                // 并发限流，限制同时处理的请求数（如最多100个并发），超出直接拒绝
+                options.AddConcurrencyLimiter("concurrentPolicy", opt =>
+                {
+                    opt.PermitLimit = 100;
+                });
+
+                #endregion
+
+                // 自定义限流返回状态码
+                options.OnRejected = (context, _) =>
+                {
+                    context.HttpContext.Response.StatusCode = 429;
+                    return new ValueTask();
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -139,7 +204,7 @@ namespace Zyh.Web.Api
 
                 if (context.Request.Method == HttpMethods.Get
                     && context.Request.Path != null
-                    && !context.Request.Path.StartsWithSegments("/tips", StringComparison.OrdinalIgnoreCase)
+                    && !context.Request.Path.StartsWithSegments("/jocker", StringComparison.OrdinalIgnoreCase)
                     && context.Response.StatusCode == StatusCodes.Status404NotFound)
                 {
                     context.Response.ContentType = "text/html";
@@ -153,6 +218,7 @@ namespace Zyh.Web.Api
             //启用身份验证 需要在app.UseAuthorization();之前启用身份验证，因为需要进行身份验证后才能进行授权。
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseRateLimiter(); // 限流器在认证之后
 
             app.UseEndpoints(endpoints =>
             {

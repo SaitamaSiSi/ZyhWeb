@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
@@ -30,13 +31,13 @@ namespace Zyh.Web.Api.Controllers
             _webSetting = setting.CurrentValue;
         }
 
-        [HttpGet, Route("get")]
+        [HttpGet, Route("get"), AllowAnonymous, EnableRateLimiting("slidingPolicy")]
         public string Get()
         {
             return "get";
         }
 
-        [HttpPost, Route("post")]
+        [HttpPost, Route("post"), AllowAnonymous, EnableRateLimiting("slidingPolicy")]
         public ReqResult<string> Post([FromBody] LoginParams condition)
         {
             return ReqResult<string>.Success("Test");
