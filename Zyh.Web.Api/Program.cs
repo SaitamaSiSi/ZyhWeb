@@ -1,7 +1,9 @@
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using StackExchange.Redis;
 using System.Data.Common;
 using Zyh.Common.AI;
+using Zyh.Common.Redis;
 using Zyh.Common.Security;
 using Zyh.Plugins.Manager;
 using Zyh.Web.Api.Worker;
@@ -23,6 +25,14 @@ namespace Zyh.Web.Api
 
         public static void Main(string[] args)
         {
+            #region Redis
+
+            //using (RedisService redisService = new RedisService("192.168.100.178", 6379, "123456"))
+            //{
+            //}
+
+            #endregion
+
             #region 测试分类识别
 
             //string classifyOnnx = "F:\\TestProgram\\Test\\AIStudio\\model.onnx";

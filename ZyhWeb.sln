@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Common.Entity", "Zyh.Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zyh.Common.AI", "Zyh.Common.AI\Zyh.Common.AI.csproj", "{D7DC33DA-FD64-4C4F-BE3D-5409C5E7F850}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zyh.Common.Redis", "Zyh.Common.Redis\Zyh.Common.Redis.csproj", "{FF8D02B4-C7A8-4667-BD11-EE3924B6D01C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +80,10 @@ Global
 		{D7DC33DA-FD64-4C4F-BE3D-5409C5E7F850}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7DC33DA-FD64-4C4F-BE3D-5409C5E7F850}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7DC33DA-FD64-4C4F-BE3D-5409C5E7F850}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF8D02B4-C7A8-4667-BD11-EE3924B6D01C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF8D02B4-C7A8-4667-BD11-EE3924B6D01C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF8D02B4-C7A8-4667-BD11-EE3924B6D01C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF8D02B4-C7A8-4667-BD11-EE3924B6D01C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,6 +99,7 @@ Global
 		{E6C50EA5-CAD9-4BCB-B1DB-D7AD6944C8EC} = {B2A182C3-1F9D-4071-BD14-CC21F6C0F642}
 		{2DA0EF34-ACA5-43A4-B413-1C16F59CCC00} = {B2A182C3-1F9D-4071-BD14-CC21F6C0F642}
 		{D7DC33DA-FD64-4C4F-BE3D-5409C5E7F850} = {B2A182C3-1F9D-4071-BD14-CC21F6C0F642}
+		{FF8D02B4-C7A8-4667-BD11-EE3924B6D01C} = {B2A182C3-1F9D-4071-BD14-CC21F6C0F642}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3F7DA44-C675-4E26-9006-02A2D2E82B80}
