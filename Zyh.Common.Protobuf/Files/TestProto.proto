@@ -1,0 +1,17 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Zyh.Common.Protobuf.Models";
+// import "google/protobuf/timestamp.proto";
+// import "google/protobuf/wrappers.proto";
+
+message TestProto {
+    string Id = 1;
+    int32 Grade = 4;
+    SubTestProto Sub1 = 16;
+    repeated SubTestProto Sub2 = 3;
+}
+
+message SubTestProto {
+    int32 Id = 1;
+    string Name = 5;
+}
