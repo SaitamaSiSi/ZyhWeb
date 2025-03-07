@@ -1,0 +1,13 @@
+{
+  "plugins": [
+    {
+      "id": "subsystem-a",
+      "name": "子系统A",
+      "icon": "http://127.0.0.1:5000/api/file/v1/png.png",
+      "url": "http://127.0.0.2:5000/",
+      "type": "iframe",
+      "permissions": ["access_user_info"],
+      "enabled": true
+    }
+  ]
+}

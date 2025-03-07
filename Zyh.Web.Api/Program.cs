@@ -27,7 +27,7 @@ namespace Zyh.Web.Api
         {
             #region Redis
 
-            //using (RedisService redisService = new RedisService("127.0.0.1", 6379, "123456"))
+            //using (RedisService redisService = new RedisService("192.168.100.178", 6379, "123456"))
             //{
             //}
 

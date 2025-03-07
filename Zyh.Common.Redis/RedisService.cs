@@ -65,6 +65,15 @@ namespace Zyh.Common.Redis
         }
 
         /// <summary>
+        /// 增加计数，如果不是数字会抛异常
+        /// </summary>
+        /// <param name="key"></param>
+        public long IncrValue(RedisKey key, long value = 1)
+        {
+            return _db.StringIncrement(key, value);
+        }
+
+        /// <summary>
         /// 获取值
         /// </summary>
         /// <param name="key"></param>
@@ -116,6 +125,17 @@ namespace Zyh.Common.Redis
         public void SetHash(RedisKey key, HashEntry[] values)
         {
             _db.HashSet(key, values);
+        }
+
+        /// <summary>
+        /// 增加计数，如果不是数字会抛异常
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="field"></param>
+        /// <param name="value"></param>
+        public long IncrHash(RedisKey key, RedisValue field, long value = 1)
+        {
+            return _db.HashIncrement(key, field, value);
         }
 
         /// <summary>
@@ -193,6 +213,18 @@ namespace Zyh.Common.Redis
         public void SetSortedSet(RedisKey key, RedisValue member, double score)
         {
             _db.SortedSetAdd(key, member, score);
+        }
+
+        /// <summary>
+        /// 增加计数
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="member"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public double IncrSrotedSet(RedisKey key, RedisValue member, double value = 1)
+        {
+            return _db.SortedSetIncrement(key, member, value);
         }
 
         /// <summary>
